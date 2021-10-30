@@ -1,0 +1,1 @@
+注意：当前版本为绿色免安装版，请先安装Python环境，并使用install_requires.py安装依赖。此外，需要使用init.py进行初始化配置。
