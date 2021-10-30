@@ -4,7 +4,7 @@
 from tkinter import filedialog
 import os,libwordclass,csv,libsc
 
-INSTALLED = True
+INSTALLED = False
 SC = 'sc'
 AUDIO = 'audio'
 LESSONS = '.bsslessons'
