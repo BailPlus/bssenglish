@@ -7,7 +7,7 @@ import os,libwordclass,csv,libsc
 INSTALLED = False
 SC = 'sc'
 AUDIO = 'audio'
-LESSONS = '.bsslessons'
+LESSONS = 'lessons'
 ntdata = ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
 posixdata = os.path.join(os.path.expanduser('~'),'.config','bss')
 posixcache = os.path.join(os.path.expanduser('~'),'.cache','bss')
@@ -35,7 +35,7 @@ def readfile(fn:str)->list:	#读取文件并转化为单词字典
 def readfromcsv()->list:
     fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
     lst = []
-    with open(fn,newline='') as file:
+    with open(fn,newline='',encoding='utf-8') as file:
         reader = csv.reader(file,delimiter='\t')
         for index,items in enumerate(reader):
             if index == 0:  #跳过第一行
@@ -44,7 +44,7 @@ def readfromcsv()->list:
     return lst
 def saveascsv(lst:list):
     fn = filedialog.asksaveasfilename(filetypes=[('CSV表格','.csv')])
-    with open(fn,'w',newline='') as file:
+    with open(fn,'w',newline='',encoding='utf-8') as file:
         writer = csv.writer(file,delimiter='\t')
         writer.writerow(['单词','音标','词义','学习次数','错误次数','复习时间'])
         for i in lst:
@@ -58,7 +58,7 @@ def getpath(name:str):
         elif name == 'audio':
             return os.path.join(eval(os.name+'cache'),AUDIO)
         elif name == 'lessons':
-            return os.path.join(os.path.expanduser('~'),LESSONS)
+            return os.path.join(eval(os.name+'data'),LESSONS)
         elif name == '<all>':
             return (getpath('audio'),getpath('lessons'),getpath('scdir'))
     else:

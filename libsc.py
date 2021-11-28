@@ -77,7 +77,7 @@ def gui_main(root:Tk):
     #听写模块生词
     sclis = LabelFrame(scmain,text='听写模块');sclis.pack()
     lisbtns = Frame(sclis);lisbtns.pack()
-    Button(lisbtns,text='立即复习',command=lambda:review(scmain,'listen')).grid()
+    Button(lisbtns,text='立即复习',state=DISABLED,command=lambda:review(scmain,'listen')).grid()
     Button(lisbtns,text='导入',command=lambda:imp(lislst)).grid(row=0,column=1)
     Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
     listree = ttk.Treeview(sclis,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));listree.pack()
@@ -208,7 +208,7 @@ sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函�
         i.review = int(time.time()+deltatime(i))
     #删除熟记生词
     for i in sclst:
-        if i.strenth() > 0.9:
+        if i.strenth() > 0.95:
             lst.remove(i)
 def savefile():
     '''将生词列表保存到文件'''
