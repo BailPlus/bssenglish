@@ -4,11 +4,13 @@
 from tkinter import filedialog
 import os,libwordclass,csv,libsc
 
-INSTALLED = False
+INSTALLED = True
 SC = 'sc'
 AUDIO = 'audio'
 LESSONS = 'lessons'
+PLUGINS = 'plugins'
 ntdata = ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
+ntlocal = posixlocal = os.path.join(os.path.expanduser('~'),'.local')
 posixdata = os.path.join(os.path.expanduser('~'),'.config','bss')
 posixcache = os.path.join(os.path.expanduser('~'),'.cache','bss')
 
@@ -32,8 +34,9 @@ def readfile(fn:str)->list:	#读取文件并转化为单词字典
         file.close()
         print(f'共读入{len(lst)}个单词')
     return lst
-def readfromcsv()->list:
-    fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
+def readfromcsv(fn=None)->list:
+    if not fn:
+        fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
     lst = []
     with open(fn,newline='',encoding='utf-8') as file:
         reader = csv.reader(file,delimiter='\t')
@@ -42,8 +45,9 @@ def readfromcsv()->list:
                 continue
             lst.append(libsc.Sc(*items))
     return lst
-def saveascsv(lst:list):
-    fn = filedialog.asksaveasfilename(filetypes=[('CSV表格','.csv')])
+def saveascsv(lst:list,fn=None):
+    if not fn:
+        fn = filedialog.asksaveasfilename(filetypes=[('CSV表格','.csv')])
     with open(fn,'w',newline='',encoding='utf-8') as file:
         writer = csv.writer(file,delimiter='\t')
         writer.writerow(['单词','音标','词义','学习次数','错误次数','复习时间'])
@@ -53,22 +57,26 @@ def getpath(name:str):
     if INSTALLED:
         if name == 'sc':
             return os.path.join(eval(os.name+'data'),SC)
-        elif name == 'scdir':
+        if name == 'scdir':
             return eval(os.name+'data')
         elif name == 'audio':
             return os.path.join(eval(os.name+'cache'),AUDIO)
         elif name == 'lessons':
             return os.path.join(eval(os.name+'data'),LESSONS)
+        elif name == 'plugins':
+            return os.path.join(eval(os.name+'local'),PLUGINS)
         elif name == '<all>':
-            return (getpath('audio'),getpath('lessons'),getpath('scdir'))
+            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
     else:
-        if name == 'sc':
-            return SC
-        elif name == 'scdir':
+##        if name == 'sc':
+##            return SC
+        if name == 'scdir':
             return '.'
         elif name == 'audio':
             return AUDIO
         elif name == 'lessons':
             return LESSONS
+        elif name == 'plugins':
+            return PLUGINS
         elif name == '<all>':
-            return (getpath('audio'),getpath('lessons'),getpath('scdir'))
+            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))

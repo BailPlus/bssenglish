@@ -11,10 +11,13 @@ def makedir():
             print(f'已创建：{i}')
         except FileExistsError:
             pass
-def makedata():
+'''def makedata():
         dic = shelve.open(libfile.getpath('sc'))
         dic['rem'] = dic['lis'] = dic['wri'] = []
-        print('生词数据库创建成功')
+        print('生词数据库创建成功')'''
+def makedata():
+    for i in ('rem.csv','lis.csv','wri.csv'):
+        open(os.path.join(libfile.getpath('scdir'),i),'w').close()
 def main():
     makedir()
     makedata()

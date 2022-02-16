@@ -4,26 +4,36 @@
 from tkinter import *
 from tkinter import messagebox as msgbox
 from tkinter import ttk
+import gi
+gi.require_version('Gtk','3.0')
+from gi.repository.Gtk import *
 import libsc as sc,libfile,bss,libaudio
 
 def root():
-    root = Tk()
-    root.title('白杉树背单词训练软件')
-    root.geometry('800x600')
+##    root = Tk()
+##    root.title('白杉树背单词训练软件')
+    root = Window(title='白杉树背单词训练软件')
+##    root.geometry('800x600')
+    root.set_default_size(800,600)
+    root.connect('destroy',main_quit)
 
 ##    msgbox.showinfo('公告','由于百度tts功能收费，暂时关闭听写以及下载音频功能。正在努力寻找替代方案。')
 
-    Label(root,text='请选择课程').grid()
+    label = Label('请选择课程')
 ##    Label(root,text=f'课程读取目录：{libfile.getpath("lessons")}，请勿一次性添加过多课程。').grid(row=0,column=999)
-    Button(root,text='添加课程',command=lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。')).grid(row=0,column=999)
-    Button(root,text='生词管理',command=lambda:sc.control(root)).grid()
+    addlesson = Button('添加课程')##,command=lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。')).grid(row=0,column=999)
+    addlesson.connect('clicked',lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。'))
+    sccontrol = Button('生词管理')##,command=lambda:sc.control(root)).grid()
+    sccontrol.connect('clicked',lambda:sc.control(root))
 
+    for i in (label,addlesson,sccontrol):
+        root.add(i)
     return root
 def inroot(root:Tk,fnlst:list):
     for i,s in enumerate(fnlst):
         if 'bak' in s:
             continue
-        Label(root,text=s).grid(row=i+2,column=0)
+        label = Label(s)
         Button(root,text='记忆',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'remember')).grid(row=i+2,column=1)
         Button(root,text='听写',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'listen')).grid(row=i+2,column=2)
         Button(root,text='默写',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'write')).grid(row=i+2,column=3)

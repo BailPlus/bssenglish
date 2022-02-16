@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
-#Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.2.2.1_25
-#2021.7.11-2022.2.12
+#Copyright Bail 2021
+#bssenglish 白杉树背单词训练软件 v1.1.1.1_14
+#2021.7.11-2021.11.27
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -13,7 +13,6 @@ from tkinter import Tk
 import sys,os,libgui,libfile,libsc
 
 def init():
-    '''初始化'''
     if not libfile.INSTALLED and not os.path.exists('lessons'):
         __import__('init').main()
     if libfile.INSTALLED and not os.path.exists(libfile.getpath('lessons')):
@@ -23,8 +22,7 @@ def learnctrl(root:Tk,wlst:list,sctype:str):
     for i in sclst:
         libsc.mark(i,eval(f'libsc.{sctype[:3]}lst'))
 def loadplugins():
-    '''加载模块'''
-    sys.path.append('.',)
+    sys.path.append('.')
     os.chdir(libfile.getpath('plugins'))
     for i in os.listdir('.'):
         pkgname = i.split('.')[0] #去掉后缀名
@@ -36,7 +34,8 @@ def main():
     root = libgui.root()
     files = libfile.getfile()
     libgui.inroot(root,files)
-    root.mainloop()
+    root.show_all()
+    libgui.main()
     libsc.savefile()
     return 0
 

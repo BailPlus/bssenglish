@@ -1,10 +1,13 @@
-#Copyright Bail 2021
-#bssenglish:lessonturn 课程文件转换 v1.0_1
-#2021.8.12
+#Copyright Bail 2021-2022
+#bssenglish:lessonturn 课程文件转换 v1.0.1_2
+#2021.8.12-2022.2.12
 
-import os
+import sys,os
 
-fn = input('要转换的文件 >')
+if len(sys.argv) == 1:
+    fn = input('要转换的文件 >')
+else:
+    fn = sys.argv[1]
 slst = []
 with open(fn) as file:
     for i in file.readlines():

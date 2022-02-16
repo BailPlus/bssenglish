@@ -6,7 +6,7 @@ from tkinter import messagebox as msgbox,ttk
 import shelve,time,libwordclass,libgui,liblist,os,libfile
 
 FN = libfile.getpath('sc')
-remlst = lislst = wrilst = []
+remlst = [];lislst = [];wrilst = []
 
 class Sc(libwordclass.Word):
     '''生词类 继承于:单词类'''
@@ -32,19 +32,28 @@ word(Sc):生词对象
                 self.learn,self.wrong,self.review]
 
 def imp(lst:list):
+    '''从外部csv导入生词'''
     newlst = libfile.readfromcsv()
     lst += newlst
     msgbox.showinfo('提示','导入成功，请重启程序。')
 def exp(lst:list):
+    '''导出生词到外部csv'''
     libfile.saveascsv(lst)
-def readfile():
+"""def readfile():
     '''读取生词文件'''
     global remlst,lislst,wrilst
     dic = shelve.open(FN)
     remlst = dic['rem']
     lislst = dic['lis']
     wrilst = dic['wri']
-    dic.close()
+    dic.close()"""
+def readfile():
+    '''读取生词文件'''
+    global remlst,lislst,wrilst
+    for i in ('rem','lis','wri'):
+        lst = eval(f'{i}lst')
+        fn = os.path.join(libfile.getpath('scdir'),f'{i}.csv')
+        lst += libfile.readfromcsv(fn)
 def treesort(tree:ttk.Treeview,col:str,reverse:bool):
     print(tree.get_children(''))
     l = [tree.set((k,col),k) for k in tree.get_children('')]
@@ -52,10 +61,10 @@ def treesort(tree:ttk.Treeview,col:str,reverse:bool):
     for i,(val,k) in enumerate(l):
         tree.move(k,'',i)
         print(k)
-    tree.heading(col,command=lambda:treesort(remtree,'音标',True))
+    tree.heading(col,command=lambda:treesort(remtree,col,True))
 def gui_main(root:Tk):
     '''主窗口
-    root(Tk):bss根窗口'''
+root(Tk):bss根窗口'''
     scmain = Toplevel(root)
     scmain.title('生词管理')
 
@@ -77,7 +86,7 @@ def gui_main(root:Tk):
     #听写模块生词
     sclis = LabelFrame(scmain,text='听写模块');sclis.pack()
     lisbtns = Frame(sclis);lisbtns.pack()
-    Button(lisbtns,text='立即复习',state=DISABLED,command=lambda:review(scmain,'listen')).grid()
+    Button(lisbtns,text='立即复习',command=lambda:review(scmain,'listen')).grid()
     Button(lisbtns,text='导入',command=lambda:imp(lislst)).grid(row=0,column=1)
     Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
     listree = ttk.Treeview(sclis,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));listree.pack()
@@ -175,6 +184,11 @@ def mark(word:libwordclass.Word,lst:list):
     '''将单词标记为生词
 word(libwordclass.Word):要标记的单词对象
 lst:要存入的列表'''
+    for i in lst:
+        if word == i:
+            i.learn += 1
+            i.wrong += 1
+            return
     sc = Sc(word.word,word.pronounce,word.trans,1,1,int(time.time()))
     lst.append(sc)
 def review(scmain:Tk,sctype:str):
@@ -210,13 +224,19 @@ sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函�
     for i in sclst:
         if i.strenth() > 0.95:
             lst.remove(i)
-def savefile():
+"""def savefile():
     '''将生词列表保存到文件'''
     dic = shelve.open(FN)
     dic['rem'] = remlst
     dic['lis'] = lislst
     dic['wri'] = wrilst
-    dic.close()
+    dic.close()"""
+def savefile():
+    '''将生词列表保存到文件'''
+    for i in ('rem','lis','wri'):
+        lst = eval(f'{i}lst')
+        fn = os.path.join(libfile.getpath('scdir'),f'{i}.csv')
+        libfile.saveascsv(lst,fn)
 def control(root):
     '''生词模块主控
 root(tkinter.Tk):主窗口'''
