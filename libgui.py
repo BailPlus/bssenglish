@@ -173,6 +173,7 @@ def download(root:Tk,wordnum:int):
         label['text'] = f'{per}%'
         down.update()
         if per == 100:
+            msgbox.showinfo('提示','下载完成',parent=down)
             down.destroy()
 
     down = Toplevel(root)
