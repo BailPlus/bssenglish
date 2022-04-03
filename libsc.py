@@ -3,7 +3,7 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import shelve,time,libwordclass,libgui,liblist,os,libfile
+import time,libwordclass,libgui,liblist,os,libfile
 
 FN = libfile.getpath('sc')
 remlst = [];lislst = [];wrilst = []
@@ -72,8 +72,8 @@ root(Tk):bss根窗口'''
     screm = LabelFrame(scmain,text='记忆模块');screm.pack()
     rembtns = Frame(screm);rembtns.pack()
     Button(rembtns,text='立即复习',command=lambda:review(scmain,'remember')).grid()
-    Button(rembtns,text='导入',command=lambda:imp(remlst)).grid(row=0,column=1)
-    Button(rembtns,text='导出',command=lambda:exp(remlst)).grid(row=0,column=2)
+##    Button(rembtns,text='导入',command=lambda:imp(remlst)).grid(row=0,column=1)
+##    Button(rembtns,text='导出',command=lambda:exp(remlst)).grid(row=0,column=2)
     remtree = ttk.Treeview(screm,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));remtree.pack()
 
     remtree.heading('音标',text='音标',command=lambda:treesort(remtree,'音标',False))
@@ -87,8 +87,8 @@ root(Tk):bss根窗口'''
     sclis = LabelFrame(scmain,text='听写模块');sclis.pack()
     lisbtns = Frame(sclis);lisbtns.pack()
     Button(lisbtns,text='立即复习',command=lambda:review(scmain,'listen')).grid()
-    Button(lisbtns,text='导入',command=lambda:imp(lislst)).grid(row=0,column=1)
-    Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
+##    Button(lisbtns,text='导入',command=lambda:imp(lislst)).grid(row=0,column=1)
+##    Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
     listree = ttk.Treeview(sclis,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));listree.pack()
 
     listree.heading('音标',text='音标',command=lambda:treesort(listree,'音标',False))
@@ -102,8 +102,8 @@ root(Tk):bss根窗口'''
     scwri = LabelFrame(scmain,text='默写模块');scwri.pack()
     wribtns = Frame(scwri);wribtns.pack()
     Button(wribtns,text='立即复习',command=lambda:review(scmain,'write')).grid()
-    Button(wribtns,text='导入',command=lambda:imp(wrilst)).grid(row=0,column=1)
-    Button(wribtns,text='导出',command=lambda:exp(wrilst)).grid(row=0,column=2)
+##    Button(wribtns,text='导入',command=lambda:imp(wrilst)).grid(row=0,column=1)
+##    Button(wribtns,text='导出',command=lambda:exp(wrilst)).grid(row=0,column=2)
     writree = ttk.Treeview(scwri,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));writree.pack()
 
     writree.heading('音标',text='音标',command=lambda:treesort(writree,'音标',False))
@@ -148,7 +148,7 @@ def intree(remtree:ttk.Treeview,listree:ttk.Treeview,writree:ttk.Treeview):
                                i.learn,i.wrong,	#学习次数，错误次数
                                i.strenth(),	#记忆强度
                                reviewtime(i)))	#复习时间
-def deltatime(word:Sc):
+"""def deltatime(word:Sc):
     '''计算复习延后秒数
 word(Sc):生词对象
 返回值:距下次复习秒数(int)'''
@@ -178,6 +178,41 @@ word(Sc):生词对象
         return 8*(900*x+60000)
     elif 90 < strenth <= 100:
         return 8*(100*x+100000)
+    else:
+        raise ValueError('值超出范围')"""
+def deltatime(word:Sc)->int:
+    '''计算复习延后秒数
+word(Sc):生词对象
+返回值:距下次复习秒数(int)'''
+    strenth = word.strenth()*100
+    x = int(('%.d' % strenth)[-1])
+    
+    #增加可读性
+    day = 24*3600
+    hour = 3600
+    minute = 60
+
+    #分段函数
+    if 0 <= strenth < 10:
+        return x
+    elif 10 <= strenth < 20:
+        return 10*x+10
+    elif 20 <= strenth < 30:
+        return 60*x+60+40
+    elif 30 <= strenth < 40:
+        return 3600*x+11*minute+40
+    elif 40 <= strenth < 50:
+        return day*x+10*hour+11*minute+40
+    elif 50 <= strenth < 60:
+        return 7*day*x+10*day+10*hour+11*minute+40
+    elif 60 <= strenth < 70:
+        return 10*day*x+80*day+10*hour+11*minute+40
+    elif 70 <= strenth < 80:
+        return 15*day*x+180*day+10*hour+11*minute+40
+    elif 80 <= strenth < 90:
+        return 20*day*x+330*day+10*hour+11*minute+40
+    elif 90 <= strenth <= 100:
+        return 28*day*x+530*day+10*hour+11*minute+40
     else:
         raise ValueError('值超出范围')
 def mark(word:libwordclass.Word,lst:list):

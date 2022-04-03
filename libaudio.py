@@ -57,7 +57,7 @@ vol(int):音量
     with open(PATH,'wb') as file:
        file.write(response.content)
 def getaudio2(word:str):
-    '''获取音频并下载（搜狗tts引擎）
+    '''获取音频并下载（搜狗美式发音）
 word(str):单词
 返回值:音频文件路径(str)'''
     PATH = os.path.join(libfile.getpath('audio'),f'{word}.mp3')
@@ -81,7 +81,7 @@ def download(root:libgui.Tk,wlst:list):
                 barlst.set_description(f'下载中:{i}')
                 if ' ' in i.word:    #词组（搜狗tts引擎）
                     getaudio1(i.word)
-                else:   #单词（搜狗真人录音，美式发音）
+                else:   #单词（搜狗美式发音）
                     getaudio2(i.word)
             update(index)
         update(index+1)

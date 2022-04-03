@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.2.2.1_25
-#2021.7.11-2022.2.12
+#bssenglish 白杉树背单词训练软件 v1.3_30
+#2021.7.11-2022.4.3
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -22,6 +22,7 @@ def learnctrl(root:Tk,wlst:list,sctype:str):
     sclst = eval(f'libgui.{sctype}')(root,wlst)
     for i in sclst:
         libsc.mark(i,eval(f'libsc.{sctype[:3]}lst'))
+    libsc.savefile()
 def loadplugins():
     '''加载模块'''
     sys.path.append('.',)
