@@ -11,7 +11,9 @@ def root():
     root.title('白杉树背单词训练软件')
     root.geometry('800x600')
 
-##    msgbox.showinfo('公告','由于百度tts功能收费，暂时关闭听写以及下载音频功能。正在努力寻找替代方案。')
+    msgbox.showinfo('公告','''Windows用户请自行迁移数据：
+将C:\\用户\\<你的用户名>\\appdata\\local\\bss下除audio外的文件移动至C:\\用户\\<你的用户名>\\appdata\\roaming\\bss
+此公告将在下个版本移除。''')
 
     Label(root,text='请选择课程').grid()
 ##    Label(root,text=f'课程读取目录：{libfile.getpath("lessons")}，请勿一次性添加过多课程。').grid(row=0,column=999)

@@ -9,8 +9,9 @@ SC = 'sc'
 AUDIO = 'audio'
 LESSONS = 'lessons'
 PLUGINS = 'plugins'
-ntdata = ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
-ntlocal = posixlocal = os.path.join(os.path.expanduser('~'),'.local')
+ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
+ntdata = os.path.join(os.path.expanduser('~'),'appdata','roaming','bss')
+##ntlocal = posixlocal = os.path.join(os.path.expanduser('~'),'.local')
 posixdata = os.path.join(os.path.expanduser('~'),'.config','bss')
 posixcache = os.path.join(os.path.expanduser('~'),'.cache','bss')
 
