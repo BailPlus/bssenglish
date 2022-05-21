@@ -11,7 +11,6 @@ LESSONS = 'lessons'
 PLUGINS = 'plugins'
 ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
 ntdata = os.path.join(os.path.expanduser('~'),'appdata','roaming','bss')
-##ntlocal = posixlocal = os.path.join(os.path.expanduser('~'),'.local')
 posixdata = os.path.join(os.path.expanduser('~'),'.config','bss')
 posixcache = os.path.join(os.path.expanduser('~'),'.cache','bss')
 
@@ -65,7 +64,7 @@ def getpath(name:str):
         elif name == 'lessons':
             return os.path.join(eval(os.name+'data'),LESSONS)
         elif name == 'plugins':
-            return os.path.join(eval(os.name+'local'),PLUGINS)
+            return os.path.join(eval(os.name+'data'),PLUGINS)
         elif name == '<all>':
             return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
     else:
