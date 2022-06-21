@@ -53,7 +53,8 @@ def readfile():
     for i in ('rem','lis','wri'):
         lst = eval(f'{i}lst')
         fn = os.path.join(libfile.getpath('scdir'),f'{i}.csv')
-        lst += libfile.readfromcsv(fn)
+        lst0 = libfile.readfromcsv(fn)
+        lst += [Sc(*i) for i in lst0]
 def treesort(tree:ttk.Treeview,col:str,reverse:bool):
     print(tree.get_children(''))
     l = [tree.set((k,col),k) for k in tree.get_children('')]

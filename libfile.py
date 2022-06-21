@@ -1,4 +1,4 @@
-#Copyright Bail 2021
+#Copyright Bail 2021-2022
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog
@@ -18,6 +18,7 @@ def getfile():	#获取目录中所有文件
     lst = os.listdir(getpath('lessons'))	#检测文件
     for i in lst:
         yield os.path.join(getpath('lessons'),i)	#返回文件名
+'''
 def readfile(fn:str)->list:	#读取文件并转化为单词字典
     lst = []
     try:
@@ -34,6 +35,12 @@ def readfile(fn:str)->list:	#读取文件并转化为单词字典
         file.close()
         print(f'共读入{len(lst)}个单词')
     return lst
+'''
+def readfile(fn:str)->list:	#读取文件并转化为单词字典
+    lst = readfromcsv(fn)  ###############
+    lst2 = [libwordclass.Word(*i) for i in lst]
+    return lst2
+'''
 def readfromcsv(fn=None)->list:
     if not fn:
         fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
@@ -44,6 +51,18 @@ def readfromcsv(fn=None)->list:
             if index == 0:  #跳过第一行
                 continue
             lst.append(libsc.Sc(*items))
+    return lst
+'''
+def readfromcsv(fn=None)->list:    
+    if not fn:
+        fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
+    lst = []
+    with open(fn,newline='',encoding='utf-8') as file:
+        reader = csv.reader(file,delimiter='\t')
+        for index,items in enumerate(reader):
+            if index == 0:  #跳过第一行
+                continue
+            lst.append(items)
     return lst
 def saveascsv(lst:list,fn=None):
     if not fn:
