@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.3.3.1_34
-#2021.7.11-2022.6.21
+#bssenglish 白杉树背单词训练软件 v1.3.5.1_38
+#2021.7.11-2022.7.20
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
-生词字典:{单词(str):生词对象(__main__.Sc)}
 '''
 
 from tkinter import Tk

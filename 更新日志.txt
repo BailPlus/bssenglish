@@ -1,5 +1,17 @@
 白杉树背单词训练软件 更新日志
-2022.6.21:v1.3.3_34
+2022.7.20:v1.3.5.1_38
+-install_requires.py 去除了安装linux依赖的功能(已在软件包中声明依赖)
+2022.7.20:v1.3.5_37
+*bss.py 去除了关于生词字典的注释
+*install_requires.py 解决了安装linux依赖时没有获取root的bug
+*install_requires.py 去除了该文件的版本号
+*liblist.py 增加了文件头注释
+2022.7.12:v1.3.4.1_36
+-去除了linux端记录日志功能，并开发相应插件以弥补。
+2022.7.12:v1.3.4_35
+*linux端更改了通过命令行启动的命令(bss->bssenglish)
++linux端增加了通过desktop文件启动时记录日志的功能(/tmp/bss.stdout,/tmp/bss.stderr)
+2022.6.21:v1.3.3.1_34
 *修复转换课程文件后第一个单词无法读取的bug
 2022.6.21:v1.3.3_33
 *优化课程文件格式（第3版）（※原有课程文件需要通过lessonturn2to3.py进行转换）
