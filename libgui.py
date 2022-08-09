@@ -11,17 +11,37 @@ def root():
     root.title('白杉树背单词训练软件')
     root.geometry('800x600')
 
-    msgbox.showinfo('公告','''此版本优化了课程文件格式，更新为第3版，
-原有课程文件需要通过lessonturn2to3.py进行转换。
-此公告将在下个版本移除。''')
+##    msgbox.showinfo('公告','''此版本优化了课程文件格式，更新为第3版，
+##原有课程文件需要通过lessonturn2to3.py进行转换。
+##此公告将在下个版本移除。''')
 
-    Label(root,text='请选择课程').grid()
+    lesson_choose_frame = Frame(root)
+    lesson_choose_frame.grid()
+    Label(lesson_choose_frame,text='请选择课程').grid()
 ##    Label(root,text=f'课程读取目录：{libfile.getpath("lessons")}，请勿一次性添加过多课程。').grid(row=0,column=999)
-    Button(root,text='添加课程',command=lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。')).grid(row=0,column=999)
-    Button(root,text='生词管理',command=lambda:sc.control(root)).grid()
+    Button(lesson_choose_frame,text='添加课程',command=lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。')).grid(row=0,column=1)
+
+    sccontrol_frame = Frame(root)
+    sccontrol_frame.grid()
+    Button(sccontrol_frame,text='生词管理',command=lambda:sc.control(root)).grid(row=0,column=0)
+    rem_need_review_label = Label(sccontrol_frame)
+    rem_need_review_label.grid(row=0,column=1)
+    lis_need_review_label = Label(sccontrol_frame)
+    lis_need_review_label.grid(row=0,column=2)
+    wri_need_review_label = Label(sccontrol_frame)
+    wri_need_review_label.grid(row=0,column=3)
+    #将三个Label添加为root的属性，临时解决方案
+    root.rem_need_review_label = rem_need_review_label
+    root.lis_need_review_label = lis_need_review_label
+    root.wri_need_review_label = wri_need_review_label
+
+    lessons_frame = Frame(root)
+    lessons_frame.grid()
+    root.lessons_frame = lessons_frame
 
     return root
 def inroot(root:Tk,fnlst:list):
+    root = root.lessons_frame
     for i,s in enumerate(fnlst):
         if 'bak' in s:
             continue
@@ -31,6 +51,27 @@ def inroot(root:Tk,fnlst:list):
         Button(root,text='默写',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'write')).grid(row=i+2,column=3)
         Button(root,text='单词本',command=lambda arg=s:wordbook(root,libfile.readfile(arg))).grid(row=i+2,column=4)
         Button(root,text='下载音频',command=lambda arg=s:libaudio.download(root,libfile.readfile(arg))).grid(row=i+2,column=5)
+def count_need_review(root:Tk):
+    '''统计需要复习的单词数
+root(tkinter.Tk):（包含三个Label属性的）根窗口'''
+    remlab = root.rem_need_review_label
+    lislab = root.lis_need_review_label
+    wrilab = root.wri_need_review_label
+    rem = sc.remlst
+    lis = sc.lislst
+    wri = sc.wrilst
+
+    for i in ('rem','lis','wri'):
+        if i == 'rem':
+            sub = '记忆'
+        elif i == 'lis':
+            sub = '听写'
+        elif i == 'wri':
+            sub = '默写'
+
+        need = sc.get_need_review_list(eval(i))
+        needn = len(need)
+        eval(i+'lab').config(text=f'{sub}需复习个数:{needn}')
 def remember(root:Tk,wlst:list):
     '''记忆模块界面
 root(tkinter.Tk):根窗口
@@ -184,3 +225,9 @@ def download(root:Tk,wordnum:int):
     bar = ttk.Progressbar(down);bar.pack()
     label = Label(down,text='0%');label.pack()
     return update
+def init(root:Tk):
+    '''初始化界面
+root(tkinter.Tk):根窗口'''
+    inroot(root,libfile.getfile())
+    count_need_review(root)
+    print('界面初始化完毕')

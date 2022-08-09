@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.3.5.1_38
-#2021.7.11-2022.7.20
+#bssenglish 白杉树背单词训练软件 v1.4_41
+#2021.7.11-2022.8.7
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -34,8 +34,9 @@ def main():
     loadplugins()
     libsc.readfile()
     root = libgui.root()
-    files = libfile.getfile()
-    libgui.inroot(root,files)
+    libgui.init(root)
+##    files = libfile.getfile()
+##    libgui.inroot(root,files)
     root.mainloop()
     libsc.savefile()
     return 0

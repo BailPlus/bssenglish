@@ -123,7 +123,14 @@ obj(Sc):生词对象'''
     sec = obj.review-time.time()
     timeobj = time.localtime(sec)
     timelst = time.strftime('%m,%d,%H,%M,%S',timeobj).split(',')
-    timelst[0] = str(int(timelst[0])-1);timelst[1] = str(int(timelst[1])-1) #to solve problem `Jan 1'
+
+    #to solve problem `Jan 1'
+    timelst[0] = str(int(timelst[0])-1)
+    timelst[1] = str(int(timelst[1])-1)
+
+    #解决“8时”时差（※其他系统可能会-8h或报错）
+    timelst[2] = str(int(timelst[2])-8)
+
     times = '{}月{}天{}时{}分{}秒'.format(*timelst)
     return times
 def intree(remtree:ttk.Treeview,listree:ttk.Treeview,writree:ttk.Treeview):
@@ -227,6 +234,15 @@ lst:要存入的列表'''
             return
     sc = Sc(word.word,word.pronounce,word.trans,1,1,int(time.time()))
     lst.append(sc)
+def get_need_review_list(lst:list):
+    '''分出需要复习的词
+lst(list):生词列表
+返回值:需要复习的生词列表(list)'''
+    need_review = []
+    for i in lst:
+        if i.review <= time.time():
+            need_review.append(i)
+    return need_review
 def review(scmain:Tk,sctype:str):
     '''生词复习及处理
 scmain(tkinter.Tk):生词管理窗口
@@ -241,10 +257,7 @@ sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函�
     else:
         lst = wrilst
     #分出需要复习的词
-    sclst = []
-    for i in lst:
-        if i.review <= time.time():
-            sclst.append(i)
+    sclst = get_need_review_list(lst)
     #复习生词
     relst = eval(f'libgui.{sctype}')(scmain,sclst)
     #处理生词
