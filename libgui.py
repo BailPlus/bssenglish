@@ -4,7 +4,7 @@
 from tkinter import *
 from tkinter import messagebox as msgbox
 from tkinter import ttk
-import libsc as sc,libfile,bss,libaudio
+import libsc as sc,libfile,bss,libaudio,threading
 
 def root():
     root = Tk()
@@ -145,8 +145,8 @@ wlst(list):单词列表
         judgel = Label(lis);judgel.grid(row=1,column=1)
         wordl = Label(lis,text=word.word)
         entry.bind('<Return>',lambda event:judge())
-        entry.bind('<Button-1>',lambda event:libaudio.play(word))   #绑定鼠标点击时播放音频
-        entry.bind('<Control_L>',lambda event:libaudio.play(word))  #绑定按下左Ctrl时播放音频
+        entry.bind('<Button-1>',lambda event:threading.Thread(target=lambda:libaudio.play(word)).start())   #绑定鼠标点击时播放音频
+        entry.bind('<Control_L>',lambda event:threading.Thread(target=lambda:libaudio.play(word)).start())  #绑定按下左Ctrl时播放音频
 
     lisroot = Toplevel(root)
     lisroot.title('听写模块总窗口')
