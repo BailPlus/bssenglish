@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.4.2_43
-#2021.7.11-2022.8.17
+#bssenglish 白杉树背单词训练软件 v1.5_44
+#2021.7.11-2022.8.18
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)

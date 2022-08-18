@@ -18,8 +18,7 @@ def root():
     lesson_choose_frame = Frame(root)
     lesson_choose_frame.grid()
     Label(lesson_choose_frame,text='请选择课程').grid()
-##    Label(root,text=f'课程读取目录：{libfile.getpath("lessons")}，请勿一次性添加过多课程。').grid(row=0,column=999)
-    Button(lesson_choose_frame,text='添加课程',command=lambda:msgbox.showinfo('提示',f'课程文件存放目录：{libfile.getpath("lessons")}，请勿添加过多课程。')).grid(row=0,column=1)
+    Button(lesson_choose_frame,text='添加课程',command=libfile.add_lesson).grid(row=0,column=1)
 
     sccontrol_frame = Frame(root)
     sccontrol_frame.grid()

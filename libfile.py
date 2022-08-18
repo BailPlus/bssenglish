@@ -2,7 +2,7 @@
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog
-import os,libwordclass,csv,libsc
+import os,libwordclass,csv,libsc,shutil,libgui
 
 INSTALLED = True
 SC = 'sc'
@@ -99,3 +99,10 @@ def getpath(name:str):
             return PLUGINS
         elif name == '<all>':
             return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
+def add_lesson():
+    '''添加课程文件'''
+    fn = filedialog.askopenfilename()
+    path = os.path.join(eval(f'{os.name}data'),'lessons')
+    print(path)
+    shutil.copy(fn,path)
+    libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
