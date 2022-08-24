@@ -97,7 +97,7 @@ wslt(list):单词列表
         tranl['text'] = i.trans
         if res:
             if msgbox.askyesno('','正确？',parent=rem):
-                continue
+                pass
             else:
                 for j in range(2,-1,-1):
                     libaudio.play(i)
