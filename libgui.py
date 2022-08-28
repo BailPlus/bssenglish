@@ -135,6 +135,7 @@ wlst(list):单词列表
                 else:
                     entry['state'] = NORMAL
                     entry.delete(0,END)
+                    threading.Thread(target=lambda:libaudio.play(word)).start()
 
         lis = Toplevel(lisroot)
         lis.title('听写')
