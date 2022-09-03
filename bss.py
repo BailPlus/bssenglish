@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.5.2_46
-#2021.7.11-2022.8.28
+#bssenglish 白杉树背单词训练软件 v1.5.3_47
+#2021.7.11-2022.9.3
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
 '''
 
 from tkinter import Tk
-import sys,os,libgui,libfile,libsc
+import sys,os,libgui,libfile,libsc,libclosefile
 
 def init():
     '''初始化'''
@@ -39,6 +39,7 @@ def main():
 ##    libgui.inroot(root,files)
     root.mainloop()
     libsc.savefile()
+    libclosefile.close_all_files()
     return 0
 
 if __name__ == '__main__':
