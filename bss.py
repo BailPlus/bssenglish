@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.5.5_50
+#bssenglish 白杉树背单词训练软件 v1.5.6_51
 #2021.7.11-2022.12.5
 
 '''
@@ -31,6 +31,12 @@ def loadplugins():
     for i in os.listdir('.'):
         pkgname = i.split('.')[0] #去掉后缀名
         __import__(pkgname)
+def printe(*args,**kw):
+    '''从stderr通道输出内容
+与内置函数print用法相同'''
+    # 为了后续版本的libcli从stdout输出，故将日志输出到stderr通道
+    # 需要其他模块进行适配，将在后续版本完成
+    print(file=sys.stderr,*args,**kw)
 def main():
     init()
     loadplugins()
