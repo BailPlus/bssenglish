@@ -4,7 +4,7 @@
 from tkinter import filedialog
 import os,libwordclass,csv,libsc,shutil,libgui
 
-INSTALLED = True
+##INSTALLED = True
 SC = 'sc'
 AUDIO = 'audio'
 LESSONS = 'lessons'
@@ -73,7 +73,7 @@ def saveascsv(lst:list,fn=None):
         for i in lst:
             writer.writerow(i.items())
 def getpath(name:str):
-    if INSTALLED:
+##    if INSTALLED:
         if name == 'sc':
             return os.path.join(eval(os.name+'data'),SC)
         if name == 'scdir':
@@ -86,19 +86,19 @@ def getpath(name:str):
             return os.path.join(eval(os.name+'data'),PLUGINS)
         elif name == '<all>':
             return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
-    else:
-##        if name == 'sc':
-##            return SC
-        if name == 'scdir':
-            return '.'
-        elif name == 'audio':
-            return AUDIO
-        elif name == 'lessons':
-            return LESSONS
-        elif name == 'plugins':
-            return PLUGINS
-        elif name == '<all>':
-            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
+##    else:
+####        if name == 'sc':
+####            return SC
+##        if name == 'scdir':
+##            return '.'
+##        elif name == 'audio':
+##            return AUDIO
+##        elif name == 'lessons':
+##            return LESSONS
+##        elif name == 'plugins':
+##            return PLUGINS
+##        elif name == '<all>':
+##            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
 def add_lesson():
     '''添加课程文件'''
     fn = filedialog.askopenfilename()

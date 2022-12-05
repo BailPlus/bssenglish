@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2022
-#bssenglish 白杉树背单词训练软件 v1.5.3.1_48
+#bssenglish 白杉树背单词训练软件 v1.5.4_49
 #2021.7.11-2022.12.5
 
 '''
@@ -13,9 +13,11 @@ import sys,os,libgui,libfile,libsc
 
 def init():
     '''初始化'''
-    if not libfile.INSTALLED and not os.path.exists('lessons'):
-        __import__('init').main()
-    if libfile.INSTALLED and not os.path.exists(libfile.getpath('lessons')):
+##    if not libfile.INSTALLED and not os.path.exists('lessons'):
+##        __import__('init').main()
+##    if libfile.INSTALLED and not os.path.exists(libfile.getpath('lessons')):
+##        __import__('init').main()
+    if not os.path.exists(libfile.getpath('lessons')):
         __import__('init').main()
 def learnctrl(root:Tk,wlst:list,sctype:str):
     sclst = eval(f'libgui.{sctype}')(root,wlst)
