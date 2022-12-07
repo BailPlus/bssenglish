@@ -102,33 +102,10 @@ def saveascsv(lst:list,fn=None):
         for i in lst:
             writer.writerow(i.items())
 def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
-    return path[OSNAME][name]
-####    if INSTALLED:
-####        if name == 'sc':
-####            return os.path.join(eval(os.name+'data'),SC)
-##        if name == 'scdir':
-##            return eval(os.name+'data')
-##        elif name == 'audio':
-##            return os.path.join(eval(os.name+'cache'),AUDIO)
-##        elif name == 'lessons':
-##            return os.path.join(eval(os.name+'data'),LESSONS)
-##        elif name == 'plugins':
-##            return os.path.join(eval(os.name+'data'),PLUGINS)
-##        elif name == '<all>':
-##            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
-##    else:
-####        if name == 'sc':
-####            return SC
-##        if name == 'scdir':
-##            return '.'
-##        elif name == 'audio':
-##            return AUDIO
-##        elif name == 'lessons':
-##            return LESSONS
-##        elif name == 'plugins':
-##            return PLUGINS
-##        elif name == '<all>':
-##            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
+    if name == '<all>':
+        return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
+    else:
+        return path[OSNAME][name]
 def add_lesson():
     '''添加课程文件'''
     fn = filedialog.askopenfilename()
