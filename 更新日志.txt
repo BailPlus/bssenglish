@@ -1,4 +1,14 @@
 白杉树背单词训练软件 更新日志
+2022.12.7:v1.5.7_52
++libfile.py 新增path字典
+*libfile.py 修改getpath函数适配path字典
+*libsc.py 适配新版libfile.getpath函数（scdir->data）
+*libfile.py 准备弃用getpath函数
+*sc.py 文件改为符号链接
++bss.py 适配了导入时对各平台的支持
+*libfile.py 将OSNAME迁移到bss.py
+*修复了导入课程时未适配新版本的问题
+*libfile.py 修复了获取所有路径时未适配的问题
 2022.12.5:v1.5.6_51
 +bss.py 增加了printe函数用于将日志输出到stderr(未进行适配)
 2022.12.5:v1.5.5_50
