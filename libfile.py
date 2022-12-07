@@ -9,10 +9,40 @@ SC = 'sc'
 AUDIO = 'audio'
 LESSONS = 'lessons'
 PLUGINS = 'plugins'
-ntcache = os.path.join(os.path.expanduser('~'),'appdata','local','bss')
-ntdata = os.path.join(os.path.expanduser('~'),'appdata','roaming','bss')
-posixdata = os.path.join(os.path.expanduser('~'),'.config','bss')
-posixcache = os.path.join(os.path.expanduser('~'),'.cache','bss')
+OSNAME = 'deepin'   #备选:None,deepin,termux
+OSNAME = OSNAME if OSNAME else os.name
+
+home = os.path.expanduser('~')
+path = {
+        'nt':{
+              'audio':os.path.join(home,'appdata','local','bss','audio'),
+              'lessons':os.path.join(home,'appdata','roaming','bss','lessons'),
+              'plugins':os.path.join(home,'appdata','roaming','bss','plugins'),
+              'cache':os.path.join(home,'appdata','local','bss'),
+              'data':os.path.join(home,'appdata','roaming','bss')
+             },
+        'posix':{
+                 'audio':os.path.join(home,'.cache','bss','audio'),
+                 'lessons':os.path.join(home,'.config','bss','lessons'),
+                 'plugins':os.path.join(home,'.config','bss','plugins'),
+                 'cache':os.path.join(home,'.cache','bss'),
+                 'data':os.path.join(home,'.config','bss')
+                },
+        'termux':{
+                  'audio':os.path.join(home,'.cache','bss','audio'),
+                  'lessons':os.path.join(home,'.config','bss','lessons'),
+                  'plugins':os.path.join(home,'.config','bss','plugins'),
+                  'cache':os.path.join(home,'.cache','bss'),
+                  'data':os.path.join(home,'.config','bss')
+                 },
+        'deepin':{
+                  'audio':os.path.join(home,'.cache','bss','audio'),
+                  'lessons':os.path.join(home,'.config','bss','lessons'),
+                  'plugins':os.path.join(home,'.config','bss','plugins'),
+                  'cache':os.path.join(home,'.cache','bss'),
+                  'data':os.path.join(home,'.config','bss')
+                 }
+        }
 
 def getfile():	#获取目录中所有文件
     lst = os.listdir(getpath('lessons'))	#检测文件
@@ -72,20 +102,21 @@ def saveascsv(lst:list,fn=None):
         writer.writerow(['单词','音标','词义','学习次数','错误次数','复习时间'])
         for i in lst:
             writer.writerow(i.items())
-def getpath(name:str):
-##    if INSTALLED:
-        if name == 'sc':
-            return os.path.join(eval(os.name+'data'),SC)
-        if name == 'scdir':
-            return eval(os.name+'data')
-        elif name == 'audio':
-            return os.path.join(eval(os.name+'cache'),AUDIO)
-        elif name == 'lessons':
-            return os.path.join(eval(os.name+'data'),LESSONS)
-        elif name == 'plugins':
-            return os.path.join(eval(os.name+'data'),PLUGINS)
-        elif name == '<all>':
-            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
+def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
+    return path[OSNAME][name]
+####    if INSTALLED:
+####        if name == 'sc':
+####            return os.path.join(eval(os.name+'data'),SC)
+##        if name == 'scdir':
+##            return eval(os.name+'data')
+##        elif name == 'audio':
+##            return os.path.join(eval(os.name+'cache'),AUDIO)
+##        elif name == 'lessons':
+##            return os.path.join(eval(os.name+'data'),LESSONS)
+##        elif name == 'plugins':
+##            return os.path.join(eval(os.name+'data'),PLUGINS)
+##        elif name == '<all>':
+##            return (getpath('audio'),getpath('lessons'),getpath('scdir'),getpath('plugins'))
 ##    else:
 ####        if name == 'sc':
 ####            return SC

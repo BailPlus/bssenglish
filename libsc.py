@@ -5,7 +5,7 @@ from tkinter import *
 from tkinter import messagebox as msgbox,ttk
 import time,libwordclass,libgui,liblist,os,libfile
 
-FN = libfile.getpath('sc')
+##FN = libfile.getpath('sc')
 remlst = [];lislst = [];wrilst = []
 
 class Sc(libwordclass.Word):
@@ -52,7 +52,7 @@ def readfile():
     global remlst,lislst,wrilst
     for i in ('rem','lis','wri'):
         lst = eval(f'{i}lst')
-        fn = os.path.join(libfile.getpath('scdir'),f'{i}.csv')
+        fn = os.path.join(libfile.getpath('data'),f'{i}.csv')
         lst0 = libfile.readfromcsv(fn)
         lst += [Sc(*i) for i in lst0]
 def treesort(tree:ttk.Treeview,col:str,reverse:bool):
@@ -284,7 +284,7 @@ def savefile():
     '''将生词列表保存到文件'''
     for i in ('rem','lis','wri'):
         lst = eval(f'{i}lst')
-        fn = os.path.join(libfile.getpath('scdir'),f'{i}.csv')
+        fn = os.path.join(libfile.getpath('data'),f'{i}.csv')
         libfile.saveascsv(lst,fn)
 def control(root):
     '''生词模块主控
