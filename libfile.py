@@ -2,15 +2,14 @@
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog
-import os,libwordclass,csv,libsc,shutil,libgui
+import os,libwordclass,csv,libsc,shutil,libgui,bss
 
 ##INSTALLED = True
 SC = 'sc'
 AUDIO = 'audio'
 LESSONS = 'lessons'
 PLUGINS = 'plugins'
-OSNAME = 'deepin'   #备选:None,deepin,termux
-OSNAME = OSNAME if OSNAME else os.name
+OSNAME = bss.OSNAME
 
 home = os.path.expanduser('~')
 path = {

@@ -9,7 +9,20 @@
 '''
 
 from tkinter import Tk
-import sys,os,libgui,libfile,libsc
+import sys,os
+#按系统类型配置导入模块的目录
+OSNAME = 'deepin'   #备选:None,deepin,termux
+OSNAME = OSNAME if OSNAME else os.name
+if OSNAME in ('nt','deepin'):
+    import_path = '.'
+elif OSNAME in ('posix',):
+    import_path = '/usr/lib/bssenglish'
+elif OSNAME in ('termux',):
+    import_path = '/data/data/com.termux/files/usr/lib/bssenglish'
+else:
+    raise EnvironmentError('系统不支持')
+sys.path.append(import_path)
+import libgui,libfile,libsc
 
 def init():
     '''初始化'''
