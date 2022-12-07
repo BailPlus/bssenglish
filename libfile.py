@@ -132,7 +132,7 @@ def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作�
 def add_lesson():
     '''添加课程文件'''
     fn = filedialog.askopenfilename()
-    path = os.path.join(eval(f'{os.name}data'),'lessons')
+    path = getpath('lessons')
     print(path)
     shutil.copy(fn,path)
     libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
