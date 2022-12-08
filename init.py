@@ -19,8 +19,8 @@ def makedir():
 def makedata():
     print('开始创建生词数据库')
     for i in ('rem.csv','lis.csv','wri.csv'):
-        path = os.path.join(libfile.getpath('scdir'),i)
-        if os.exists(path): #若存在则不创建，修复了v1.5.5_50之前小概率删库的bug
+        path = os.path.join(libfile.getpath('data'),i)
+        if os.path.exists(path): #若存在则不创建，修复了v1.5.5_50之前小概率删库的bug
             print(f'警告：{i}已存在',file=sys.stderr) #用i而不是用path
         else:
             open(path,'w').close()

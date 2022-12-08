@@ -1,4 +1,7 @@
 白杉树背单词训练软件 更新日志
+2022.12.8:v1.5.7.1_53
+*libfile.py 进一步适配新版getpath函数，修复了初始化时无法启动的bug
+*init.py 适配新版libfile.getpath函数
 2022.12.7:v1.5.7_52
 +libfile.py 新增path字典
 *libfile.py 修改getpath函数适配path字典
