@@ -10,7 +10,7 @@ a 文本内容'''
 '''https://fanyi.sogou.com/reventondc/synthesis?text=hello&speed=1&lang=en&from=translateweb&speaker=1'''
 '''https://dlweb.sogoucdn.com/phonetic/{word}DELIMITER_us_1.mp3'''
 
-import requests,os,libgui,tqdm,playsound,libwordclass,libfile
+import requests,os,libgui,tqdm,playsound,libclass,libfile
 
 """def getaudio(word:str,lan:str='en',spd:int=5,per:int=1,vol:int=5)->str:
     '''获取音频并下载
@@ -88,7 +88,7 @@ def download(root:libgui.Tk,wlst:list):
     except:
         libgui.msgbox.showerror('错误','无法下载，请检查网络连接',parent=root)
         raise
-def play(word:libwordclass.Word):
+def play(word:libclass.Word):
     w = word.word
     path = os.path.join(libfile.getpath('audio'),f'{w}.mp3')
     if os.path.exists(path):

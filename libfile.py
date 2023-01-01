@@ -2,7 +2,7 @@
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog
-import os,libwordclass,csv,libsc,shutil,libgui,bss
+import os,libclass,csv,libsc,shutil,libgui,bss
 
 ##INSTALLED = True
 SC = 'sc'
@@ -67,7 +67,7 @@ def readfile(fn:str)->list:	#读取文件并转化为单词字典
 '''
 def readfile(fn:str)->list:	#读取文件并转化为单词字典
     lst = readfromcsv(fn)  ###############
-    lst2 = [libwordclass.Word(*i) for i in lst]
+    lst2 = [libclass.Word(*i) for i in lst]
     return lst2
 '''
 def readfromcsv(fn=None)->list:

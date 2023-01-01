@@ -3,12 +3,12 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import time,libwordclass,libgui,liblist,os,libfile
+import time,libclass,libgui,liblist,os,libfile
 
 ##FN = libfile.getpath('sc')
 remlst = [];lislst = [];wrilst = []
 
-class Sc(libwordclass.Word):
+class Sc(libclass.Word):
     '''生词类 继承于:单词类'''
 ##    learn = wrong = 1	#学习1次，错误1次
     def __init__(self,word:str,pro:str,trans:str,learn:int,wrong:int,review:int):
@@ -223,9 +223,9 @@ word(Sc):生词对象
         return 28*day*x+530*day+10*hour+11*minute+40
     else:
         raise ValueError('值超出范围')
-def mark(word:libwordclass.Word,lst:list):
+def mark(word:libclass.Word,lst:list):
     '''将单词标记为生词
-word(libwordclass.Word):要标记的单词对象
+word(libclass.Word):要标记的单词对象
 lst:要存入的列表'''
     for i in lst:
         if word == i:
