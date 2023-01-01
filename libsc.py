@@ -1,5 +1,5 @@
-#Copyright Bail 2021
-#bssenglish:sc 生词模块
+#Copyright Bail 2021-2023
+#bssenglish:libsc 生词模块
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk

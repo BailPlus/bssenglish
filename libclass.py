@@ -1,4 +1,4 @@
-#Copyright Bail 2021
+#Copyright Bail 2021-2023
 #bssenglish:libwordclass 单词类模块
 
 class Word:

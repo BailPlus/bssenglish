@@ -1,4 +1,4 @@
-#Copyright Bail 2021
+#Copyright Bail 2021-2023
 #bssenglish:libaudio 音频模块
 #2021.8.25
 

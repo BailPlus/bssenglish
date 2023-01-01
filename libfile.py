@@ -1,4 +1,4 @@
-#Copyright Bail 2021-2022
+#Copyright Bail 2021-2023
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog
