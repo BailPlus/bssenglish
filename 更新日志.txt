@@ -1,4 +1,11 @@
 白杉树背单词训练软件 更新日志
+2023.1.1:v1.5.8_54
+*libclass.py 重命名了文件（原为libwordclass.py）
+*libfile.py 适配了重命名
+*libsc.py 适配了重命名
+*libaudio.py 适配了重命名
+*libclass.py 将libsc.Sc迁移到此
+*libsc.py 迁移Sc类并适配
 2022.12.8:v1.5.7.1_53
 *libfile.py 进一步适配新版getpath函数，修复了初始化时无法启动的bug
 *init.py 适配新版libfile.getpath函数
