@@ -1,0 +1,2 @@
+#!/data/data/com.termux/files/usr/bin/sh
+rm -r /data/data/com.termux/files/usr/lib/bssenglish/__pycache__

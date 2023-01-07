@@ -6,7 +6,7 @@ Installed-Size:90KB
 Pre-Depends:
 Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
 Recommends:
-Conflicts:
+Conflicts: com.Bail.bssenglish
 Replaces:
 Provides: Office
 Priority: optional

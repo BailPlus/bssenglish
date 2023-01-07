@@ -1,12 +1,12 @@
-Package: com.Bail.bssenglish
+Package: bssenglish-termux
 Version: 1.5.8
-Architecture: all
+Architecture: aarch64
 Maintainer: Bail<2915289604@qq.com>
-Installed-Size:85KB
+Installed-Size:95KB
 Pre-Depends:
-Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
+Depends: python(>=3.7),python3-tkinter
 Recommends:
-Conflicts: bssenglish
+Conflicts:
 Replaces:
 Provides: Office
 Priority: optional

@@ -1,4 +1,4 @@
 #!/bin/sh
-rm -r /opt/apps/com.Bail.bssenglish/files/__pycache__
+rm -r /usr/lib/bssenglish/__pycache__
 ##rm -r /home/*/.config/bss
 ##rm -r /home/*/.cache/bss

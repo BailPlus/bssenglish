@@ -1,0 +1,17 @@
+{
+    "appid": "com.Bail.bssenglish",
+    "name": "bssenglish",
+    "version": "1.5.8",
+    "arch": ["all"],
+    "permissions": {
+        "autostart": false,
+        "notification": false,
+        "trayicon": false,
+        "clipboard": false,
+        "account": false,
+        "bluetooth": false,
+        "camera": false,
+        "audio_record": false,
+        "installed_apps": false
+    }
+}
