@@ -1,0 +1,3 @@
+#!/bin/sh
+python3 /usr/lib/bssenglish/install_requires.py -p
+##python3 /opt/bss/init.py

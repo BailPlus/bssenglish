@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=Office
+Exec=/opt/bss/bss.py
+Icon=/usr/share/pixmaps/bss.png
+Name=bssenglish
+Name[zh_CN]=白杉树背单词训练软件
+Type=Application
+X-Deepin-Vendor=user-custom

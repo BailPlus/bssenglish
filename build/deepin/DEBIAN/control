@@ -1,0 +1,13 @@
+Package: bssenglish
+Version: 1.5.8+deepin
+Architecture: all
+Maintainer: Bail<2915289604@qq.com>
+Installed-Size:85KB
+Pre-Depends:
+Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
+Recommends:
+Conflicts:
+Replaces:
+Provides: Office
+Priority: optional
+Description: 帮助你更快速、更牢固地地记忆单词 

@@ -1,0 +1,4 @@
+#!/bin/sh
+rm -r /opt/bss/__pycache__
+##rm -r /home/*/.config/bss
+##rm -r /home/*/.cache/bss
