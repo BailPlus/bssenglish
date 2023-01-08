@@ -4,7 +4,7 @@ Architecture: aarch64
 Maintainer: Bail<2915289604@qq.com>
 Installed-Size:95KB
 Pre-Depends:
-Depends: python(>=3.7),python3-tkinter
+Depends: python(>=3.7),python-tkinter
 Recommends:
 Conflicts:
 Replaces:
