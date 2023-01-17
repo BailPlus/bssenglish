@@ -1,4 +1,14 @@
 白杉树背单词训练软件 更新日志
+2023.1.17:v1.7_58
++libfile.py 增加了公告处理文件的路径
++init.py 增加了公告处理文件的创建
+*init.py 优化了创建目录或文件的代码，逻辑更清晰
++src/libnotice.py 增加了公告功能
++src/bss.py 适配了公告功能
++src/libgui.py 增加了公告的显示
++src/libgui.py 增加了统一的showerror接口
++src/libnetwork.py 增加了api源的常量（目前只有github源，其他暂未开放）
++src/libnetwork.py 增加了文字类型api获取接口
 2023.1.17:v1.6_57
 +src/libnetwork.py 新增功能：获取课程（需打开浏览器）（网站尚未完善，请稍后使用）
 +src/libgui.py 增加了获取课程的按钮
