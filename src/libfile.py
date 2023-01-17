@@ -13,35 +13,26 @@ OSNAME = bss.OSNAME
 
 home = os.path.expanduser('~')
 path = {
-        'nt':{
-              'audio':os.path.join(home,'appdata','local','bss','audio'),
-              'lessons':os.path.join(home,'appdata','roaming','bss','lessons'),
-              'plugins':os.path.join(home,'appdata','roaming','bss','plugins'),
-              'cache':os.path.join(home,'appdata','local','bss'),
-              'data':os.path.join(home,'appdata','roaming','bss')
-             },
-        'posix':{
-                 'audio':os.path.join(home,'.cache','bss','audio'),
-                 'lessons':os.path.join(home,'.config','bss','lessons'),
-                 'plugins':os.path.join(home,'.config','bss','plugins'),
-                 'cache':os.path.join(home,'.cache','bss'),
-                 'data':os.path.join(home,'.config','bss')
-                },
-        'termux':{
-                  'audio':os.path.join(home,'.cache','bss','audio'),
-                  'lessons':os.path.join(home,'.config','bss','lessons'),
-                  'plugins':os.path.join(home,'.config','bss','plugins'),
-                  'cache':os.path.join(home,'.cache','bss'),
-                  'data':os.path.join(home,'.config','bss')
-                 },
-        'deepin':{
-                  'audio':os.path.join(home,'.cache','bss','audio'),
-                  'lessons':os.path.join(home,'.config','bss','lessons'),
-                  'plugins':os.path.join(home,'.config','bss','plugins'),
-                  'cache':os.path.join(home,'.cache','bss'),
-                  'data':os.path.join(home,'.config','bss')
-                 }
-        }
+    'cache':{
+        'nt':os.path.join(home,'appdata','local','bss'),
+        'posix':os.path.join(home,'.cache','bss'),
+        'deepin':os.path.join(home,'.cache','bss'),
+        'termux':os.path.join(home,'.cache','bss')
+    },
+    'data':{
+        'nt':os.path.join(home,'appdata','roaming','bss'),
+        'posix':os.path.join(home,'.config','bss'),
+        'deepin':os.path.join(home,'.config','bss'),
+        'termux':os.path.join(home,'.config','bss')
+    }
+}
+path1 = {
+    'lessons':os.path.join(path['data'][OSNAME],'lessons'),
+    'sc':os.path.join(path['data'][OSNAME]),
+    'audio':os.path.join(path['cache'][OSNAME],'audio'),
+    'plugins':os.path.join(path['data'][OSNAME],'plugins')
+}
+path = {**path,**path1}
 
 def getfile():	#获取目录中所有文件
     lst = os.listdir(getpath('lessons'))	#检测文件
@@ -104,8 +95,10 @@ def saveascsv(lst:list,fn=None):
 def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
     if name == '<all>':
         return (getpath('audio'),getpath('lessons'),getpath('data'),getpath('plugins'))
+    elif name in ('cache','data'):
+        return path[name][OSNAME]
     else:
-        return path[OSNAME][name]
+        return path[name]
 def add_lesson():
     '''添加课程文件'''
     fn = filedialog.askopenfilename()
