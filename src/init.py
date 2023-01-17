@@ -4,14 +4,24 @@
 
 import sys,os,libsc,shelve,libfile
 
+def create(type:str,path:str):
+    '''创建
+type(str):（备选：dir,file）创建的类型
+path(str):文件名'''
+    if os.path.exists(path):    #如果已存在（防止重复创建。1. 创建文件夹会报错；2. 创建文件会清除数据,v1.5.5_50之前小概率删库的bug由此引起）
+        print(f'已存在：{path}')
+    else:                       #如果不存在
+        if type == 'dir':           #如果创建目录
+            os.makedirs(path)
+        elif type == 'file':        #如果创建文件
+            open(path,'w').close()      #如果换位a模式可能会防止删库。待辩证
+        else:
+            raise TypeError('不存在的创建类型')
+        print(f'已创建：{path}')
 def makedir():
     print('开始创建数据目录')
     for i in libfile.getpath('<all>'):
-        try:
-            os.makedirs(i)
-            print(f'已创建：{i}')
-        except FileExistsError:
-            print(f'{i} 已存在')
+        create('dir',i)
 ##def makedata():
 ##        dic = shelve.open(libfile.getpath('sc'))
 ##        dic['rem'] = dic['lis'] = dic['wri'] = []
@@ -20,18 +30,17 @@ def makedata():
     print('开始创建生词数据库')
     for i in ('rem.csv','lis.csv','wri.csv'):
         path = os.path.join(libfile.getpath('sc'),i)
-        if os.path.exists(path): #若存在则不创建，修复了v1.5.5_50之前小概率删库的bug
-            print(f'{i} 已存在') #用i而不是用path
-        else:
-            open(path,'w').close()
-            print(f'已创建：{i}')   #用i而不是用path
-    # 备选方案：open(path,'a').close()
-    # 若可行，则可替换以上if语句
+        create('file',path)
+def makenotice():
+    print('开始创建公告处理文件')
+    path = os.path.join(libfile.getpath('notice'),'newest.md5')
+    create('file',path)
 def main():
     print('开始初始化')
     makedir()
     makedata()
-    print('初始化结束')
+    makenotice()
+    print('初始化完毕')
     return 0
 
 if __name__ == '__main__':
