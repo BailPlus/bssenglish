@@ -19,7 +19,7 @@ def root():
     lesson_choose_frame.grid()
     Label(lesson_choose_frame,text='请选择课程').grid()
     Button(lesson_choose_frame,text='添加课程',command=libfile.add_lesson).grid(row=0,column=1)
-    Button(lesson_choose_frame,text='获取课程',command=libnetwork.open_browser_to_fetch_lessons).grid(row=0,column=2)
+    Button(lesson_choose_frame,text='获取课程（网站尚未完善，敬请期待）',command=libnetwork.open_browser_to_fetch_lessons,state=DISABLED).grid(row=0,column=2)
 
     sccontrol_frame = Frame(root)
     sccontrol_frame.grid()
