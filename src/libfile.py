@@ -28,7 +28,7 @@ path = {
 }
 path1 = {
     'lessons':os.path.join(path['data'][OSNAME],'lessons'),
-    'sc':os.path.join(path['data'][OSNAME]),
+    'sc':os.path.join(path['data'][OSNAME],'sc'),
     'audio':os.path.join(path['cache'][OSNAME],'audio'),
     'plugins':os.path.join(path['data'][OSNAME],'plugins')
 }
