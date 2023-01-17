@@ -226,6 +226,13 @@ def download(root:Tk,wordnum:int):
     bar = ttk.Progressbar(down);bar.pack()
     label = Label(down,text='0%');label.pack()
     return update
+def show_notice(root:Tk,notice:str):
+    msgbox.showinfo('公告',notice,parent=root)
+def showerror(msg:str,parent=None):
+    '''显示错误信息
+msg(str):错误信息的内容
+parent(tkinter的窗口对象，包含Tk和Toplevel等):错误信息附属的窗口'''
+    msgbox.showerror('错误',msg,parent=parent)
 def init(root:Tk):
     '''初始化界面
 root(tkinter.Tk):根窗口'''

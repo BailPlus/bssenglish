@@ -22,7 +22,7 @@ elif OSNAME in ('termux',):
 else:
     raise EnvironmentError('系统不支持')
 sys.path.append(import_path)
-import libgui,libfile,libsc,init
+import libgui,libfile,libsc,init,libnotice
 
 def learnctrl(root:Tk,wlst:list,sctype:str):
     sclst = eval(f'libgui.{sctype}')(root,wlst)
@@ -47,6 +47,7 @@ def main():
     loadplugins()
     libsc.readfile()
     root = libgui.root()
+    libnotice.process(root)
     libgui.init(root)
 ##    files = libfile.getfile()
 ##    libgui.inroot(root,files)

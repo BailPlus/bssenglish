@@ -1,6 +1,8 @@
 #Copyright Bail 2023
 #bssenglish:libnetwork 网络模块
 
+APISOURCE = 'https://bailplus.github.io/bssenglish.pages/api/'
+
 import requests,libfile,os,webbrowser
 
 '''https://tts.baidu.com/text2audio?cuid=baike&lan=en&ctp=1&pdt=301&vol="+vol+"&rate=32&spd="+spd+"&per="+per+"&tex="+a
@@ -74,3 +76,10 @@ def open_browser_to_fetch_lessons(url='https://bailplus.github.io/bssenglish.pag
     '''使用浏览器打开“获取课程”界面
 url(str):要打开的网址'''
     webbrowser.open(url)
+def get_text_api(url:str,timeout:int=3)->str:
+    '''获取文字类型api（若超时，请自行处理）
+url(str):api地址
+timeout(int):超时秒数
+返回值：api结果(str)'''
+    res = requests.get(url,timeout=timeout).text
+    return res
