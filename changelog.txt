@@ -1,4 +1,10 @@
 白杉树背单词训练软件 更新日志
+2023.1.17:v1.6_57
++src/libnetwork.py 新增功能：获取课程（需打开浏览器）（网站尚未完善，请稍后使用）
++src/libgui.py 增加了获取课程的按钮
+*src/libgui.py 更改了库中文名
+-src/libgui.py 暂时禁用了获取课程（网站尚未完善）
+*src/libgui.py 更改了“获取课程”按钮的文案
 2023.1.17:v1.5.10_56
 *src/libfile.py 修改了文件名获取接口，更加简明
 *src/libfile.py 更改了生词文件的路径，数据目录更条理（※更新后请手动将~/.config/bss/*.csv移动至同目录下sc目录中）
