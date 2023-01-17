@@ -22,16 +22,8 @@ elif OSNAME in ('termux',):
 else:
     raise EnvironmentError('系统不支持')
 sys.path.append(import_path)
-import libgui,libfile,libsc
+import libgui,libfile,libsc,init
 
-def init():
-    '''初始化'''
-##    if not libfile.INSTALLED and not os.path.exists('lessons'):
-##        __import__('init').main()
-##    if libfile.INSTALLED and not os.path.exists(libfile.getpath('lessons')):
-##        __import__('init').main()
-    if not os.path.exists(libfile.getpath('lessons')):
-        __import__('init').main()
 def learnctrl(root:Tk,wlst:list,sctype:str):
     sclst = eval(f'libgui.{sctype}')(root,wlst)
     for i in sclst:
@@ -51,7 +43,7 @@ def printe(*args,**kw):
     # 需要其他模块进行适配，将在后续版本完成
     print(file=sys.stderr,*args,**kw)
 def main():
-    init()
+    init.main()
     loadplugins()
     libsc.readfile()
     root = libgui.root()

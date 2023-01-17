@@ -94,7 +94,7 @@ def saveascsv(lst:list,fn=None):
             writer.writerow(i.items())
 def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
     if name == '<all>':
-        return (getpath('audio'),getpath('lessons'),getpath('data'),getpath('plugins'))
+        return (getpath('audio'),getpath('lessons'),getpath('sc'),getpath('plugins'))
     elif name in ('cache','data'):
         return path[name][OSNAME]
     else:
