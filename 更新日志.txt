@@ -1,5 +1,14 @@
 白杉树背单词训练软件 更新日志
-2022.1.9:v1.5.9_55
+2023.1.17:v1.5.10_56
+*src/libfile.py 修改了文件名获取接口，更加简明
+*src/libfile.py 更改了生词文件的路径，数据目录更条理（※更新后请手动将~/.config/bss/*.csv移动至同目录下sc目录中）
+*src/libsc.py 适配了生词目录的变更
+*src/init.py 适配了生词目录的变更
+*src/init.py 更改了“已存在”的输出文案和输出通道（stderr->stdout）
++src/init.py 增加了初始化开始和结束的输出提示
+*src/bss.py 更改了初始化策略，现在每次启动都会进行初始化
+*src/libfile.py 修复了init.py无法读取到新生词目录的bug
+2023.1.9:v1.5.9_55
 +src/libnetwork.py 将网络有关操作分离到此文件
 *src/libaudio.py 分离了网络有关操作
 2023.1.1:v1.5.8_54

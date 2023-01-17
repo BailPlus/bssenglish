@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2023
-#bssenglish 白杉树背单词训练软件 v1.5.9_55
-#2021.7.11-2023.1.9
+#bssenglish 白杉树背单词训练软件 v1.5.10_56
+#2021.7.11-2023.1.17
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -31,7 +31,7 @@ def learnctrl(root:Tk,wlst:list,sctype:str):
     libsc.savefile()
 def loadplugins():
     '''加载模块'''
-    sys.path.append('.',)
+    sys.path.append('.',)   #这是什么鬼东西？
     os.chdir(libfile.getpath('plugins'))
     for i in os.listdir('.'):
         pkgname = i.split('.')[0] #去掉后缀名
