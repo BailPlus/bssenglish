@@ -1,7 +1,7 @@
 #Copyright Bail 2023
 #bssenglish:libnetwork 网络模块
 
-import requests,libfile,os
+import requests,libfile,os,webbrowser
 
 '''https://tts.baidu.com/text2audio?cuid=baike&lan=en&ctp=1&pdt=301&vol="+vol+"&rate=32&spd="+spd+"&per="+per+"&tex="+a
 spd 语速 default:5
@@ -70,3 +70,7 @@ word(str):单词
     #存储
     with open(PATH,'wb') as file:
        file.write(response.content)
+def open_browser_to_fetch_lessons(url='https://bailplus.github.io/bssenglish.pages/lessons'):
+    '''使用浏览器打开“获取课程”界面
+url(str):要打开的网址'''
+    webbrowser.open(url)

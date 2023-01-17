@@ -1,10 +1,10 @@
-#Copyright Bail 2021-2022
-#bssenglish:libgui 图形库
+#Copyright Bail 2021-2023
+#bssenglish:libgui 图形界面模块
 
 from tkinter import *
 from tkinter import messagebox as msgbox
 from tkinter import ttk
-import libsc as sc,libfile,bss,libaudio,threading
+import libsc as sc,libfile,bss,libaudio,threading,libnetwork
 
 def root():
     root = Tk()
@@ -19,6 +19,7 @@ def root():
     lesson_choose_frame.grid()
     Label(lesson_choose_frame,text='请选择课程').grid()
     Button(lesson_choose_frame,text='添加课程',command=libfile.add_lesson).grid(row=0,column=1)
+    Button(lesson_choose_frame,text='获取课程',command=libnetwork.open_browser_to_fetch_lessons).grid(row=0,column=2)
 
     sccontrol_frame = Frame(root)
     sccontrol_frame.grid()
