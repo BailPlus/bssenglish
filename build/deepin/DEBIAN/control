@@ -1,8 +1,8 @@
 Package: com.Bail.bssenglish
-Version: 1.5.8
+Version: 
 Architecture: all
 Maintainer: Bail<2915289604@qq.com>
-Installed-Size:85KB
+Installed-Size:KB
 Pre-Depends:
 Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
 Recommends:
@@ -10,4 +10,4 @@ Conflicts: bssenglish
 Replaces:
 Provides: Office
 Priority: optional
-Description: 帮助你更快速、更牢固地地记忆单词 
+Description: 帮助你更快速、更牢固地记忆单词 
