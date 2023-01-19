@@ -4,7 +4,7 @@
 from tkinter import *
 from tkinter import messagebox as msgbox
 from tkinter import ttk
-import libsc as sc,libfile,bss,libaudio,threading,libnetwork
+import libsc as sc,libfile,bss,libaudio,threading,libnetwork,libclass
 
 def root():
     root = Tk()
@@ -37,7 +37,7 @@ def root():
 
     lessons_frame = Frame(root)
     lessons_frame.pack(anchor=NW)
-    root.lessons_frame = lessons_frame
+    root.lessons_frame = lessons_frame  #把这个frame夹带出去，方便其他函数使用。后期将会把libgui用class重写，届时将不需要这样操作
 
     Label(root,text='特别鸣谢：红杉树智能英语(http://www.hssenglish.com)提供运行逻辑',fg='#7f7f7f').pack(side=BOTTOM,fill=X)
     return root
@@ -48,12 +48,12 @@ def inroot(root:Tk,fnlst:list):
             print(f'警告：{path}不是课程文件')
             continue
         lesson_title = libfile.readfile(path).name
-        Label(root,text=lesson_title).grid(row=i+2,column=0)
-        Button(root,text='记忆',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'remember')).grid(row=i+2,column=1)
-        Button(root,text='听写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'listen')).grid(row=i+2,column=2)
-        Button(root,text='默写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'write')).grid(row=i+2,column=3)
-        Button(root,text='单词本',command=lambda arg=path:wordbook(root,libfile.readfile(arg).words)).grid(row=i+2,column=4)
-        Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i+2,column=5)
+        Label(root,text=lesson_title).grid(row=i,column=0)
+        Button(root,text='记忆',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'remember')).grid(row=i,column=1)
+        Button(root,text='听写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'listen')).grid(row=i,column=2)
+        Button(root,text='默写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'write')).grid(row=i,column=3)
+        Button(root,text='课程信息',command=lambda arg=path:lesson_info(root,libfile.readfile(arg))).grid(row=i,column=4)
+        Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i,column=5)
 def count_need_review(root:Tk):
     '''统计需要复习的单词数
 root(tkinter.Tk):（包含三个Label属性的）根窗口'''
@@ -203,15 +203,21 @@ wlst(list):单词列表
         gui(i)
     wriroot.mainloop()
     return sclst
-def wordbook(root:Tk,lst:list):
-    '''单词本
+def lesson_info(root:Tk,lesson:libclass.Lesson):
+    '''课程信息（原为“单词本”）
 root(tkinter.Tk):根窗口
-lst(list:[libwordclass.Word,...]):单词列表'''
+lesson(libclass.Lesson):课程'''
     book = Toplevel(root)
-    book.title('单词本')
+    book.title('课程信息')
 
+    #基本信息
+    Label(book,text=f'课程名称：{lesson.name}').pack(anchor=NW)
+    Label(book,text=f'课程全称：{lesson.fullname}').pack(anchor=NW)
+    Label(book,text=f'作者：{lesson.author}').pack(anchor=NW)
+
+    #单词表
     tree = ttk.Treeview(book,columns=('音标','词义'));tree.pack()
-    for i in lst:
+    for i in lesson.words:
         tree.insert('','end',text=i.word,values=(i.pronounce,i.trans))
 def download(root:Tk,wordnum:int):
     def update(value:int):
