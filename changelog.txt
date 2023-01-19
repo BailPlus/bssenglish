@@ -1,4 +1,15 @@
 白杉树背单词训练软件 更新日志
+2023.1.19:v1.8_59
++src/libclass.py 新增了课程类
++src/libfile.py 新增判断是否为课程文件的函数
++src/libfile.py 增加了导入课程时判断是否为课程文件的机制
+*src/libfile.py 更新了读取课程文件的方式，适配了新版课程文件
+*src/libgui.py 更新了过滤非课程文件的方式，适配了新版课程文件
+*src/libgui.py 适配了新版课程文件
++src/libclass.py 补全了部分注释
++src/libfile.py 补全了部分注释
++src/libgui.py 补全了部分注释
+-src/libfile.py 删除了一些无用的旧代码
 2023.1.17:v1.7_58
 +libfile.py 增加了公告处理文件的路径
 +init.py 增加了公告处理文件的创建
