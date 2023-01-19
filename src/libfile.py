@@ -1,15 +1,12 @@
 #Copyright Bail 2021-2023
 #bssenglish:libfile 文件处理模块
 
-from tkinter import filedialog
-import os,libclass,csv,libsc,shutil,libgui,bss
+from tkinter import filedialog  #将在后期替换为libgui.filedialog，为了代码整洁
+from typing import Generator    #用于描述类型
+import os,libclass,csv,shutil,libgui,bss,json
 
-##INSTALLED = True
-SC = 'sc'
-AUDIO = 'audio'
-LESSONS = 'lessons'
-PLUGINS = 'plugins'
 OSNAME = bss.OSNAME
+LESSON_FILE_HEADER = 'bssenglish lesson file\n' #课程文件头
 
 home = os.path.expanduser('~')
 path = {
@@ -35,53 +32,46 @@ path1 = {
 }
 path = {**path,**path1}
 
-def getfile():	#获取目录中所有文件
+def getfile()->Generator:
+    '''获取所有课程文件
+返回值:生成器，包含所有课程文件'''
     lst = os.listdir(getpath('lessons'))	#检测文件
     for i in lst:
         yield os.path.join(getpath('lessons'),i)	#返回文件名
-'''
-def readfile(fn:str)->list:	#读取文件并转化为单词字典
-    lst = []
-    try:
-        file = open(fn,encoding='utf-8')	#普通打开
-        for i in file.readlines():	#读取每个词语记录
-            objlst = i.split()
-            objlst[0] = objlst[0].replace('_',' ')
-            lst.append(libwordclass.Word(*objlst))
-            print(f'已读入:{i}')
-    except ValueError:
-        msgbox.showerror('','文件格式错误')
-        raise
-    finally:
-        file.close()
-        print(f'共读入{len(lst)}个单词')
-    return lst
-'''
-def readfile(fn:str)->list:	#读取文件并转化为单词字典
-    lst = readfromcsv(fn)  ###############
-    lst2 = [libclass.Word(*i) for i in lst]
-    return lst2
-'''
-def readfromcsv(fn=None)->list:
+def islessonfile(fn:str)->bool:
+    '''判断是否为课程文件（通过比对文件头）
+fn(str):文件名
+返回值：为课程文件性(bool)'''
+    with open(fn) as file:
+        if file.readline() == LESSON_FILE_HEADER:
+            return True
+        else:
+            return False
+def readfile(fn:str)->libclass.Lesson:
+    '''读取课程文件
+fn(str):文件名
+返回值:课程对象(libclass.Lesson)'''
+    #读取课程信息
+    with open(fn) as file:
+        file.readline()
+        lesson_info = json.loads(file.readline())
+    #读取课程内容
+    lst = readfromcsv(fn,2) #我也不知道该起啥名
+    words = tuple(libclass.Word(*i) for i in lst)
+    lesson = libclass.Lesson(**lesson_info,words=words)   #使用`words=words`是为了避免参数传乱出现bug
+    return lesson
+def readfromcsv(fn:str=None,jump_lines:int=1)->list:
+    '''从csv读取内容
+fn(str):文件名。若不指定则呼出文件选择窗口手动选择
+jump_lines(int):跳过行数。若不指定则跳过第一行
+返回值:二维列表，第一维为每一行，第二维为这一行的每一列(list)'''
     if not fn:
         fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
     lst = []
     with open(fn,newline='',encoding='utf-8') as file:
         reader = csv.reader(file,delimiter='\t')
         for index,items in enumerate(reader):
-            if index == 0:  #跳过第一行
-                continue
-            lst.append(libsc.Sc(*items))
-    return lst
-'''
-def readfromcsv(fn=None)->list:    
-    if not fn:
-        fn = filedialog.askopenfilename(filetypes=[('CSV表格','.csv')])
-    lst = []
-    with open(fn,newline='',encoding='utf-8') as file:
-        reader = csv.reader(file,delimiter='\t')
-        for index,items in enumerate(reader):
-            if index == 0:  #跳过第一行
+            if index in range(jump_lines):  #跳过指定行
                 continue
             lst.append(items)
     return lst
@@ -103,7 +93,9 @@ def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作�
 def add_lesson():
     '''添加课程文件'''
     fn = filedialog.askopenfilename()
-    path = getpath('lessons')
-    print(path)
-    shutil.copy(fn,path)
-    libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
+    if islessonfile(fn): 
+        path = getpath('lessons')
+        shutil.copy(fn,path)
+        libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
+    else:
+        libgui.showerror('你选择的不是课程文件，请重新选择')

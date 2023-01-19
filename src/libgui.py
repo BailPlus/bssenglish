@@ -42,15 +42,17 @@ def root():
     return root
 def inroot(root:Tk,fnlst:list):
     root = root.lessons_frame
-    for i,s in enumerate(fnlst):
-        if 'bak' in s:
+    for i,path in enumerate(fnlst):
+        if not libfile.islessonfile(path):  #如果不是课程文件则跳过
+            print(f'警告：{path}不是课程文件')
             continue
-        Label(root,text=s).grid(row=i+2,column=0)
-        Button(root,text='记忆',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'remember')).grid(row=i+2,column=1)
-        Button(root,text='听写',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'listen')).grid(row=i+2,column=2)
-        Button(root,text='默写',command=lambda arg=s:bss.learnctrl(root,libfile.readfile(arg),'write')).grid(row=i+2,column=3)
-        Button(root,text='单词本',command=lambda arg=s:wordbook(root,libfile.readfile(arg))).grid(row=i+2,column=4)
-        Button(root,text='下载音频',command=lambda arg=s:libaudio.download(root,libfile.readfile(arg))).grid(row=i+2,column=5)
+        lesson_title = libfile.readfile(path).name
+        Label(root,text=lesson_title).grid(row=i+2,column=0)
+        Button(root,text='记忆',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'remember')).grid(row=i+2,column=1)
+        Button(root,text='听写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'listen')).grid(row=i+2,column=2)
+        Button(root,text='默写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'write')).grid(row=i+2,column=3)
+        Button(root,text='单词本',command=lambda arg=path:wordbook(root,libfile.readfile(arg).words)).grid(row=i+2,column=4)
+        Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i+2,column=5)
 def count_need_review(root:Tk):
     '''统计需要复习的单词数
 root(tkinter.Tk):（包含三个Label属性的）根窗口'''
