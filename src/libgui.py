@@ -16,13 +16,13 @@ def root():
 ##此公告将在下个版本移除。''')
 
     lesson_choose_frame = Frame(root)
-    lesson_choose_frame.grid()
+    lesson_choose_frame.pack(anchor=NW)
     Label(lesson_choose_frame,text='请选择课程').grid()
     Button(lesson_choose_frame,text='添加课程',command=libfile.add_lesson).grid(row=0,column=1)
     Button(lesson_choose_frame,text='获取课程（网站尚未完善，敬请期待）',command=libnetwork.open_browser_to_fetch_lessons,state=DISABLED).grid(row=0,column=2)
 
     sccontrol_frame = Frame(root)
-    sccontrol_frame.grid()
+    sccontrol_frame.pack(anchor=NW)
     Button(sccontrol_frame,text='生词管理',command=lambda:sc.control(root)).grid(row=0,column=0)
     rem_need_review_label = Label(sccontrol_frame)
     rem_need_review_label.grid(row=0,column=1)
@@ -36,9 +36,10 @@ def root():
     root.wri_need_review_label = wri_need_review_label
 
     lessons_frame = Frame(root)
-    lessons_frame.grid()
+    lessons_frame.pack(anchor=NW)
     root.lessons_frame = lessons_frame
 
+    Label(root,text='特别鸣谢：红杉树智能英语(http://www.hssenglish.com)提供运行逻辑',fg='#7f7f7f').pack(side=BOTTOM,fill=X)
     return root
 def inroot(root:Tk,fnlst:list):
     root = root.lessons_frame
