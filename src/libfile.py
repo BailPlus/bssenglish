@@ -21,6 +21,12 @@ path = {
         'posix':os.path.join(home,'.config','bss'),
         'deepin':os.path.join(home,'.config','bss'),
         'termux':os.path.join(home,'.config','bss')
+    },
+    'icon':{    #不添加到<all>
+        'nt':os.path.join(os.getcwd(),'bss.png'),
+        'posix':'/usr/share/pixmaps/bss.png',
+        'deepin':os.path.join(os.getcwd(),'bss.png'),   #不用绝对路径的原因是开发要用这个配置
+        'termux':'/data/data/com.termux/files/usr/share/pixmaps/bss.png'
     }
 }
 path1 = {
@@ -86,7 +92,7 @@ def saveascsv(lst:list,fn=None):
 def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
     if name == '<all>':
         return (getpath('audio'),getpath('lessons'),getpath('sc'),getpath('plugins'),getpath('notice'))
-    elif name in ('cache','data'):
+    elif name in ('cache','data','icon'):
         return path[name][OSNAME]
     else:
         return path[name]

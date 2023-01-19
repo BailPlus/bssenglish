@@ -1,11 +1,14 @@
 白杉树背单词训练软件 更新日志
+2023.1.19:v1.8.3_62
++src/libgui.py 现在可以显示程序图标了（非白色背景下效果更明显）
++src/libfile.py 增加了图标路径
 2023.1.19:v1.8.2_61
-+libgui.py “单词本”功能升级为“课程信息”功能
-*libgui.py 简化了主界面布局
-+libgui.py 添加了一个注释
++src/libgui.py “单词本”功能升级为“课程信息”功能
+*src/libgui.py 简化了主界面布局
++src/libgui.py 添加了一个注释
 2023.1.19:v1.8.1_60
-+libgui.py 增加了特别鸣谢
-*libgui.py 更改了界面布局
++src/libgui.py 增加了特别鸣谢
+*src/libgui.py 更改了界面布局
 2023.1.19:v1.8_59
 +src/libclass.py 新增了课程类
 +src/libfile.py 新增判断是否为课程文件的函数

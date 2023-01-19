@@ -4,12 +4,17 @@
 from tkinter import *
 from tkinter import messagebox as msgbox
 from tkinter import ttk
+from _tkinter import TclError
 import libsc as sc,libfile,bss,libaudio,threading,libnetwork,libclass
 
 def root():
     root = Tk()
     root.title('白杉树背单词训练软件')
     root.geometry('800x600')
+    try:
+        root.iconphoto(False,PhotoImage(file=libfile.getpath('icon')))
+    except TclError:
+        print('W: 未找到图标')
 
 ##    msgbox.showinfo('公告','''此版本优化了课程文件格式，更新为第3版，
 ##原有课程文件需要通过lessonturn2to3.py进行转换。
