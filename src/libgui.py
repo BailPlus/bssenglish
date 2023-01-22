@@ -50,7 +50,7 @@ def inroot(root:Tk,fnlst:list):
     root = root.lessons_frame
     for i,path in enumerate(fnlst):
         if not libfile.islessonfile(path):  #如果不是课程文件则跳过
-            print(f'警告：{path}不是课程文件')
+            print(f'W: {path} 不是课程文件')
             continue
         lesson_title = libfile.readfile(path).name
         Label(root,text=lesson_title).grid(row=i,column=0)

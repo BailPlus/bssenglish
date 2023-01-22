@@ -1,4 +1,8 @@
 白杉树背单词训练软件 更新日志
+2023.1.22:v1.8.5_64
+*src/lessonturn3to4.py 优化了课程名称的读取逻辑，名称更加简洁
++src/lessonturn3to4.py 补全了课程全称的写入
+*src/lessonturn3to4.py 更改了“作者”的缺省值（None->null）
 2023.1.19:v1.8.4_63
 +src/lessonturn3to4.py 增加了课程文件版本3向4的转换脚本（简易）
 2023.1.19:v1.8.3_62
