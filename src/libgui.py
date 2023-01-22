@@ -2,8 +2,7 @@
 #bssenglish:libgui 图形界面模块
 
 from tkinter import *
-from tkinter import messagebox as msgbox
-from tkinter import ttk
+from tkinter import messagebox as msgbox,ttk
 from _tkinter import TclError
 import libsc as sc,libfile,bss,libaudio,threading,libnetwork,libclass
 
@@ -15,10 +14,6 @@ def root():
         root.iconphoto(False,PhotoImage(file=libfile.getpath('icon')))
     except TclError:
         print('W: 未找到图标')
-
-##    msgbox.showinfo('公告','''此版本优化了课程文件格式，更新为第3版，
-##原有课程文件需要通过lessonturn2to3.py进行转换。
-##此公告将在下个版本移除。''')
 
     lesson_choose_frame = Frame(root)
     lesson_choose_frame.pack(anchor=NW)
@@ -101,7 +96,7 @@ wslt(list):单词列表
     for i in wlst:
         wordl['text'] = i.word
         pronl['text'] = i.pronounce
-        libaudio.play(i)
+        i.play()
         res = msgbox.askyesno('','会？',parent=rem)
         tranl['text'] = i.trans
         if res:
@@ -127,44 +122,66 @@ def listen(root:Tk,wlst:list)->list:
 root(tkinter.Tk):根窗口
 wlst(list):单词列表
 返回值:生词列表(list)'''
-    def gui(word):
-        def judge():
-            if entry['state'] == NORMAL:
-                entry['state'] = DISABLED
-                wordl.grid(row=2)
-                myinput = entry.get()
-                if myinput == word.word:
-                    judgel['text'] = '(v)'
-                else:
-                    judgel['text'] = '(x)'
-                    sclst.append(word)
+    def enter():
+        nonlocal current_word,status,index,sclst
+
+        if status == None:  #未判
+            entry.config(state=DISABLED)
+            wordlab.config(text=current_word.word)
+            myinput = entry.get()
+            if myinput == current_word.word:
+                judgelab['text'] = '(v)'
+                status = True
             else:
-                if judgel['text'] == '(v)':
-                    lis.destroy()
-                else:
-                    entry['state'] = NORMAL
-                    entry.delete(0,END)
-                    threading.Thread(target=lambda:libaudio.play(word)).start()
+                judgelab['text'] = '(x)'
+                sclst.append(current_word)
+                status = False
+        elif status == True:    #已判，正确
+            if index+1 == len(wlst):    #如果是最后一个单词
+                msgbox.showinfo('提示','恭喜你学完本课',parent=win)
+                win.destroy()
+            else:
+                entry.config(state=NORMAL)
+                entry.delete(0,END)
+                index += 1
+                current_word = wlst[index]
+                current_word.play()
+                pronlab.config(text=current_word.pronounce)
+                wordlab.config(text='')
+                status = None
+        elif status == False:   #已判，错误
+            entry.config(state=NORMAL)
+            entry.delete(0,END)
+            threading.Thread(target=lambda:libaudio.play(current_word)).start()
+            status = None
 
-        lis = Toplevel(lisroot)
-        lis.title('听写')
+    #窗口初始化
+    win = Toplevel(root)
+    win.title('听写')
 
-        Label(lis,text=word.pronounce).grid(row=0)
-        entry = Entry(lis);entry.grid(row=1,column=0)
-        judgel = Label(lis);judgel.grid(row=1,column=1)
-        wordl = Label(lis,text=word.word)
-        entry.bind('<Return>',lambda event:judge())
-        entry.bind('<Button-1>',lambda event:threading.Thread(target=lambda:libaudio.play(word)).start())   #绑定鼠标点击时播放音频
-        entry.bind('<Control_L>',lambda event:threading.Thread(target=lambda:libaudio.play(word)).start())  #绑定按下左Ctrl时播放音频
+    #放置组件
+    pronlab = Label(win);pronlab.grid(row=0)
+    entry = Entry(win);entry.grid(row=1,column=0)
+    judgelab = Label(win);judgelab.grid(row=1,column=1)
+    wordlab = Label(win);wordlab.grid(row=2)
 
-    lisroot = Toplevel(root)
-    lisroot.title('听写模块总窗口')
-    Label(lisroot,text='该窗口为听写模块总窗口，请确保完成学习后关闭').pack()
+    #输入框绑定信号
+    entry.bind('<Return>',lambda event:enter())
+    entry.bind('<Control_L>',lambda event:current_word.play())
 
+    #初始化各种变量
+    index = 0
+    status = None   #备选：None,True,False
+                    #None:未判；True:已判，正确；False:已判，错误
     sclst = []
-    for i in wlst:
-        gui(i)
-    lisroot.mainloop()
+
+    #显示第一个单词
+    current_word = wlst[index]
+    current_word.play()
+    pronlab.config(text=current_word.pronounce)
+
+    #主循环与返回
+    win.mainloop()
     return sclst
     #现在问题:所有窗口(包括主窗口)都关闭后才会return
 def write(root:Tk,wlst:list)->list:

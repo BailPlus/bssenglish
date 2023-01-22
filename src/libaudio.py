@@ -3,7 +3,7 @@
 #2021.8.25
 
 
-import os,libgui,tqdm,playsound,libclass,libfile,libnetwork
+import os,libgui,tqdm,playsound,libclass,libfile,libnetwork,threading
 
 def download(root:libgui.Tk,wlst:list):
     files = os.listdir(libfile.getpath('audio'))
@@ -26,5 +26,5 @@ def play(word:libclass.Word):
     w = word.word
     path = os.path.join(libfile.getpath('audio'),f'{w}.mp3')
     if os.path.exists(path):
-        playsound.playsound(path)
+        threading.Thread(target=lambda:playsound.playsound(path)).start()
 

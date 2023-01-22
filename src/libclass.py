@@ -1,6 +1,11 @@
 #Copyright Bail 2021-2023
 #bssenglish:libwordclass 单词类模块
 
+Word = Sc = Lesson = None   #先定义一下，防止循环依赖时报错AttributeError
+                            #这个问题在d48ccdb2d22ddd2672e17d05bb1bf7d659c6c5e4已经出现，暂无更好解决方案
+
+import libaudio
+
 class Word:
     '''单词类'''
     def __init__(self,word:str,pronounce:str,trans:str):
@@ -14,6 +19,8 @@ class Word:
             return True
         else:
             return False
+    def play(self):
+        libaudio.play(self)
 class Sc(Word):
     '''生词类 继承于:单词类'''
 ##    learn = wrong = 1	#学习1次，错误1次
