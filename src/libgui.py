@@ -141,6 +141,7 @@ wlst(list):单词列表
                 msgbox.showinfo('提示','恭喜你学完本课',parent=win)
                 win.destroy()
             else:
+                judgelab.config(text='')
                 entry.config(state=NORMAL)
                 entry.delete(0,END)
                 index += 1
@@ -150,10 +151,16 @@ wlst(list):单词列表
                 wordlab.config(text='')
                 status = None
         elif status == False:   #已判，错误
+            judgelab.config(text='')
             entry.config(state=NORMAL)
             entry.delete(0,END)
-            threading.Thread(target=lambda:libaudio.play(current_word)).start()
+            current_word.play()
             status = None
+
+    #排除空列表
+    if len(wlst) == 0:
+        msgbox.showinfo('提示','列表为空，无可学习')
+        return []
 
     #窗口初始化
     win = Toplevel(root)
@@ -189,42 +196,72 @@ def write(root:Tk,wlst:list)->list:
 root(tkinter.Tk):根窗口
 wlst(list):单词列表
 返回值:生词列表(list)'''
-    def gui(word):
-        def judge():
-            if entry['state'] == NORMAL:
-                entry['state'] = DISABLED
-                wordl.grid(row=2)
-                myinput = entry.get()
-                if myinput == word.word:
-                    judgel['text'] = '(v)'
-                else:
-                    judgel['text'] = '(x)'
-                    sclst.append(word)
+    def enter():
+        nonlocal current_word,status,index,sclst
+
+        if status == None:  #未判
+            entry.config(state=DISABLED)
+            wordlab.config(text=current_word.word)
+            myinput = entry.get()
+            if myinput == current_word.word:
+                judgelab['text'] = '(v)'
+                status = True
             else:
-                if judgel['text'] == '(v)':
-                    wri.destroy()
-                else:
-                    entry['state'] = NORMAL
-                    entry.delete(0,END)
+                judgelab['text'] = '(x)'
+                sclst.append(current_word)
+                status = False
+        elif status == True:    #已判，正确
+            if index+1 == len(wlst):    #如果是最后一个单词
+                msgbox.showinfo('提示','恭喜你学完本课',parent=win)
+                win.destroy()
+            else:
+                judgelab.config(text='')
+                entry.config(state=NORMAL)
+                entry.delete(0,END)
+                index += 1
+                current_word = wlst[index]
+                translab.config(text=current_word.trans)
+                wordlab.config(text='')
+                status = None
+        elif status == False:   #已判，错误
+            judgelab.config(text='')
+            entry.config(state=NORMAL)
+            entry.delete(0,END)
+            status = None
 
-        wri = Toplevel(wriroot)
-        wri.title('默写')
+    #排除空列表
+    if len(wlst) == 0:
+        msgbox.showinfo('提示','列表为空，无可学习')
+        return []
 
-        Label(wri,text=word.trans).grid(row=0)
-        entry = Entry(wri);entry.grid(row=1,column=0)
-        judgel = Label(wri);judgel.grid(row=1,column=1)
-        wordl = Label(wri,text=word.word)
-        entry.bind('<Return>',lambda event:judge())
+    #窗口初始化
+    win = Toplevel(root)
+    win.title('默写')
 
-    wriroot = Toplevel(root)
-    wriroot.title('默写模块总窗口')
-    Label(wriroot,text='该窗口为默写模块总窗口，请确保完成学习后关闭').pack()
+    #放置组件
+    translab = Label(win);translab.grid(row=0)
+    entry = Entry(win);entry.grid(row=1,column=0)
+    judgelab = Label(win);judgelab.grid(row=1,column=1)
+    wordlab = Label(win);wordlab.grid(row=2)
 
+    #输入框绑定信号
+    entry.bind('<Return>',lambda event:enter())
+    entry.bind('<Control_L>',lambda event:current_word.play())
+
+    #初始化各种变量
+    index = 0
+    status = None   #备选：None,True,False
+                    #None:未判；True:已判，正确；False:已判，错误
     sclst = []
-    for i in wlst:
-        gui(i)
-    wriroot.mainloop()
+
+    #显示第一个单词
+    current_word = wlst[index]
+    translab.config(text=current_word.trans)
+
+    #主循环与返回
+    win.mainloop()
     return sclst
+    #现在问题:所有窗口(包括主窗口)都关闭后才会return
 def lesson_info(root:Tk,lesson:libclass.Lesson):
     '''课程信息（原为“单词本”）
 root(tkinter.Tk):根窗口
