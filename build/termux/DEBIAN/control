@@ -1,6 +1,6 @@
 Package: bssenglish-termux
 Version: 
-Architecture: aarch64
+Architecture: all
 Maintainer: Bail<2915289604@qq.com>
 Installed-Size:KB
 Pre-Depends:
