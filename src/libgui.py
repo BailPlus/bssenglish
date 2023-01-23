@@ -80,43 +80,97 @@ def remember(root:Tk,wlst:list):
 root(tkinter.Tk):根窗口
 wslt(list):单词列表
 返回值:生词列表(list)'''
-    def winexit():
-        if msgbox.askyesno('警告','现在退出，学习进度将不会保存。\n是否仍要退出？',parent=rem):
-            rem.destroy()
-    
-    rem = Toplevel(root)
-    rem.title('记忆')
-    rem.protocol("WM_DELETE_WINDOW",winexit)
-
-    wordl = Label(rem);wordl.pack()
-    pronl = Label(rem);pronl.pack()
-    tranl = Label(rem);tranl.pack()
-
-    sclst = []
-    for i in wlst:
-        wordl['text'] = i.word
-        pronl['text'] = i.pronounce
-        i.play()
-        res = msgbox.askyesno('','会？',parent=rem)
-        tranl['text'] = i.trans
-        if res:
-            if msgbox.askyesno('','正确？',parent=rem):
-                pass
-            else:
-                for j in range(2,-1,-1):
-                    libaudio.play(i)
-                    msgbox.showinfo('复习',f'还剩{j}次',parent=rem)
-                sclst.append(i)
+    def hui4(): #会，进入看对错
+        translab.config(text=current_word.trans)
+        huibtn.grid_forget()
+        buhuibtn.grid_forget()
+        duibtn.grid(row=1,column=0)
+        buduibtn.grid(row=1,column=1)
+    def dui4(): #对，进入下一个单词
+        nonlocal index  #防止下一行的判断出现bug
+        if index+1 == len(wlst):  #如果是最后一个单词
+            msgbox.showinfo('提示','恭喜你学完本课',parent=win)
+            win.destroy()
         else:
-            for j in range(2,-1,-1):
-                libaudio.play(i)
-                msgbox.showinfo('复习',f'还剩{j}次',parent=rem)
-            sclst.append(i)
-        tranl['text'] = ''
+            #隐藏按钮
+            duibtn.grid_forget()
+            buduibtn.grid_forget()
+            recitebtn.grid_forget()
+            
+            #初始化变量
+            nonlocal current_word   #index上面已经声明
+            index += 1
+            current_word = wlst[index]
 
-    msgbox.showinfo('提示','恭喜你学完本课',parent=rem)
-    rem.destroy()
+            #播放等
+            current_word.play()
+            wordlab.config(text=current_word.word)
+            pronlab.config(text=current_word.pronounce)
+            huibtn.grid(row=0,column=0)
+            buhuibtn.grid(row=0,column=1)
+    def bu4():  #不会/不对，进入复习
+        sclst.append(current_word)
+        translab.config(text=current_word.trans)
+        huibtn.grid_forget()
+        buhuibtn.grid_forget()
+        duibtn.grid_forget()
+        buduibtn.grid_forget()
+        recitebtn.grid(row=2)
+        recite(2)
+    def recite(ci4:int):   #下一次复习
+        '''复习
+ci(int):剩余复习次数'''
+        if ci4 <= 0: #复习完了   #防止出现bug
+            recitebtn.grid_forget()
+            dui4()
+        else:   #没复习完
+            current_word.play()
+            recitebtn.config(text=f'复习（剩余{ci4}次）',command=lambda:recite(ci4-1))
+    
+    #排除空列表
+    if len(wlst) == 0:
+        msgbox.showinfo('提示','列表为空，无可学习')
+        return []
+
+    #窗口初始化
+    win = Toplevel(root)
+    win.title('记忆')
+
+    #放置组件
+    wordlab = Label(win);wordlab.pack()
+    pronlab = Label(win);pronlab.pack()
+    translab = Label(win);translab.pack()
+    btnsframe = Frame(win);btnsframe.pack()
+    huibtn = Button(btnsframe,text='会',command=hui4);huibtn.grid(row=0,column=0)
+    buhuibtn = Button(btnsframe,text='不会',command=bu4);buhuibtn.grid(row=0,column=1)
+    duibtn = Button(btnsframe,text='对',command=dui4);duibtn.grid(row=1,column=0)
+    buduibtn = Button(btnsframe,text='不对',command=bu4);buduibtn.grid(row=1,column=1)
+    recitebtn = Button(btnsframe,text='复习');recitebtn.grid(row=2) #command在函数中设置
+
+    #默认隐藏按钮
+    huibtn.grid_forget()
+    buhuibtn.grid_forget()
+    duibtn.grid_forget()
+    buduibtn.grid_forget()
+    recitebtn.grid_forget()
+
+    #初始化各种变量
+    index = 0
+    sclst = []
+    current_word = None
+
+    #显示第一个单词
+    current_word = wlst[index]
+    current_word.play()
+    wordlab.config(text=current_word.word)
+    pronlab.config(text=current_word.pronounce)
+    huibtn.grid(row=0,column=0)
+    buhuibtn.grid(row=0,column=1)
+
+    #主循环与返回
+    win.mainloop()
     return sclst
+    #现在问题:所有窗口(包括主窗口)都关闭后才会return
 def listen(root:Tk,wlst:list)->list:
     '''听写窗口
 root(tkinter.Tk):根窗口
@@ -181,6 +235,7 @@ wlst(list):单词列表
     status = None   #备选：None,True,False
                     #None:未判；True:已判，正确；False:已判，错误
     sclst = []
+    current_word = None
 
     #显示第一个单词
     current_word = wlst[index]
@@ -253,6 +308,7 @@ wlst(list):单词列表
     status = None   #备选：None,True,False
                     #None:未判；True:已判，正确；False:已判，错误
     sclst = []
+    current_word = None
 
     #显示第一个单词
     current_word = wlst[index]
