@@ -1,4 +1,19 @@
 白杉树背单词训练软件 更新日志
+2023.1.23:v2.0_65
+*src/libgui.py 更新了听写模块的运行逻辑，现在可以不用弹出多窗口了
++src/libclass.py Word类新增了播放音频的方法
+*src/libgui.py 记忆模块适配了新的播放音频方法
+*src/libaudio.py 将播放音频放在了线程里
+*src/libgui.py 整合了import区域的代码，删除了无用的注释
+*src/libgui.py 默写模块使用了新的框架
+*src/libgui.py 修复了听写模块学习列表为空时出现的bug
+*src/libgui.py 修复了听写模块对钩残留的bug
+*src/libgui.py 记忆模块使用了新框架
+*src/libgui.py 优化了代码结构
+*src/libgui.py 增加了标题栏显示进度（可能需要手动拉宽一下窗口）
+*src/libgui.py 进一步优化了代码结构
+*src/libgui.py 修复了记忆模块复习次数减少的bug
++src/libgui.py 放开了获取课程的功能
 2023.1.22:v1.8.5_64
 *src/lessonturn3to4.py 优化了课程名称的读取逻辑，名称更加简洁
 +src/lessonturn3to4.py 补全了课程全称的写入
