@@ -103,6 +103,7 @@ wslt(list):单词列表
             current_word = wlst[index]
 
             #播放等
+            win.title(f'记忆 {index+1}/{len(wlst)}')
             current_word.play()
             wordlab.config(text=current_word.word)
             pronlab.config(text=current_word.pronounce)
@@ -160,6 +161,7 @@ ci(int):剩余复习次数'''
     current_word = None
 
     #显示第一个单词
+    win.title(f'记忆 {index+1}/{len(wlst)}')
     current_word = wlst[index]
     current_word.play()
     wordlab.config(text=current_word.word)
@@ -195,11 +197,15 @@ wlst(list):单词列表
                 msgbox.showinfo('提示','恭喜你学完本课',parent=win)
                 win.destroy()
             else:
+                #初始化变量
+                index += 1
+                current_word = wlst[index]
+
+                #显示下一个单词
+                win.title(f'听写 {index+1}/{len(wlst)}')
                 judgelab.config(text='')
                 entry.config(state=NORMAL)
                 entry.delete(0,END)
-                index += 1
-                current_word = wlst[index]
                 current_word.play()
                 pronlab.config(text=current_word.pronounce)
                 wordlab.config(text='')
@@ -238,6 +244,7 @@ wlst(list):单词列表
     current_word = None
 
     #显示第一个单词
+    win.title(f'听写 {index+1}/{len(wlst)}')
     current_word = wlst[index]
     current_word.play()
     pronlab.config(text=current_word.pronounce)
@@ -270,11 +277,15 @@ wlst(list):单词列表
                 msgbox.showinfo('提示','恭喜你学完本课',parent=win)
                 win.destroy()
             else:
+                #初始化变量
+                index += 1
+                current_word = wlst[index]
+
+                #显示下一个单词
+                win.title(f'默写 {index+1}/{len(wlst)}')
                 judgelab.config(text='')
                 entry.config(state=NORMAL)
                 entry.delete(0,END)
-                index += 1
-                current_word = wlst[index]
                 translab.config(text=current_word.trans)
                 wordlab.config(text='')
                 status = None
@@ -311,6 +322,7 @@ wlst(list):单词列表
     current_word = None
 
     #显示第一个单词
+    win.title(f'默写 {index+1}/{len(wlst)}')
     current_word = wlst[index]
     translab.config(text=current_word.trans)
 
