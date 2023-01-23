@@ -121,7 +121,7 @@ wslt(list):单词列表
     def recite(ci4:int):   #下一次复习
         '''复习
 ci(int):剩余复习次数'''
-        if ci4 <= 0: #复习完了   #防止出现bug
+        if ci4 <= -1: #复习完了   #使用`<=`防止出现bug  #使用`-1`为了满足复习3次
             recitebtn.grid_forget()
             dui4()
         else:   #没复习完
