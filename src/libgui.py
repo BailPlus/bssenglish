@@ -4,7 +4,7 @@
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
 from _tkinter import TclError
-import libsc as sc,libfile,bss,libaudio,threading,libnetwork,libclass
+import libsc as sc,libfile,bss,libaudio,libnetwork,libclass
 
 def root():
     root = Tk()
@@ -96,6 +96,7 @@ wslt(list):单词列表
             duibtn.grid_forget()
             buduibtn.grid_forget()
             recitebtn.grid_forget()
+            translab.config(text='')
             
             #初始化变量
             nonlocal current_word   #index上面已经声明

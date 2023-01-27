@@ -65,9 +65,13 @@ root(Tk):主窗口'''
     try:
         remote_md5 = fetch_md5()
     except libnetwork.requests.exceptions.ReadTimeout: #若超时
-        print('E: 获取公告md5超时',file=sys.stderr)
-        libgui.showerror('获取公告超时')
+        print('W: 获取公告md5超时',file=sys.stderr)
+        libgui.showerror('获取公告超时')  #后期改为showwarn，需在libgui适配
         return  #跳过获取
+    except libnetwork.requests.exceptions.ConnectionError:  #若无法连接
+        print('W: 无法连接到服务器')
+        libgui.showerror('无法连接到服务器，\n获取公告失败') #后期改为showwarn，需在libgui适配
+        return
 
     if not isread(remote_md5):  #如果有未读公告
         print('发现新公告')
