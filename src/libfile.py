@@ -34,7 +34,8 @@ path1 = {
     'sc':os.path.join(path['data'][OSNAME],'sc'),
     'audio':os.path.join(path['cache'][OSNAME],'audio'),
     'plugins':os.path.join(path['data'][OSNAME],'plugins'),
-    'notice':os.path.join(path['data'][OSNAME],'notice')
+    'notice':os.path.join(path['data'][OSNAME],'notice'),
+    'progress':os.path.join(path['data'][OSNAME],'progress'),
 }
 path = {**path,**path1}
 
@@ -91,7 +92,7 @@ def saveascsv(lst:list,fn=None):
             writer.writerow(i.items())
 def getpath(name:str):  #此函数现已弃用，在版本兼容时起过渡作用。新版本应直接访问path字典。
     if name == '<all>':
-        return (getpath('audio'),getpath('lessons'),getpath('sc'),getpath('plugins'),getpath('notice'))
+        return (getpath('audio'),getpath('lessons'),getpath('sc'),getpath('plugins'),getpath('notice'),getpath('progress')) #待优化:用for循环写
     elif name in ('cache','data','icon'):
         return path[name][OSNAME]
     else:

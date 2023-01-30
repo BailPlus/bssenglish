@@ -97,7 +97,7 @@ wslt(list):单词列表
             buduibtn.grid_forget()
             recitebtn.grid_forget()
             translab.config(text='')
-            
+
             #初始化变量
             nonlocal current_word   #index上面已经声明
             index += 1
@@ -128,7 +128,7 @@ ci(int):剩余复习次数'''
         else:   #没复习完
             current_word.play()
             recitebtn.config(text=f'复习（剩余{ci4}次）',command=lambda:recite(ci4-1))
-    
+
     #排除空列表
     if len(wlst) == 0:
         msgbox.showinfo('提示','列表为空，无可学习')
