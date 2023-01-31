@@ -3,7 +3,7 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import time,libclass,libgui,liblist,os,libfile
+import time,libclass,liblist,os,libfile,libgui
 
 ##FN = libfile.getpath('sc')
 remlst = [];lislst = [];wrilst = []
@@ -211,6 +211,12 @@ lst:要存入的列表'''
             return
     sc = libclass.Sc(word.word,word.pronounce,word.trans,1,1,int(time.time()))
     lst.append(sc)
+def marks(study_type:str,sclst:list):
+    '''将多个单词标记为生词
+study_type(str):课程类型 备选：remember,listen,write
+sclst(list):生词列表'''
+    for i in sclst:
+        mark(i,eval(study_type[:3]+'lst'))
 def get_need_review_list(lst:list):
     '''分出需要复习的词
 lst(list):生词列表

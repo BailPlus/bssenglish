@@ -4,7 +4,7 @@
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
 from _tkinter import TclError
-import libsc as sc,libfile,bss,libaudio,libnetwork,libclass
+import libsc as sc,libfile,bss,libaudio,libnetwork,libclass,libstudy
 
 def root():
     root = Tk()
@@ -49,7 +49,7 @@ def inroot(root:Tk,fnlst:list):
             continue
         lesson_title = libfile.readfile(path).name
         Label(root,text=lesson_title).grid(row=i,column=0)
-        Button(root,text='记忆',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'remember')).grid(row=i,column=1)
+        Button(root,text='记忆',command=lambda arg=path:libstudy.remember(root,libfile.readfile(arg))).grid(row=i,column=1)
         Button(root,text='听写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'listen')).grid(row=i,column=2)
         Button(root,text='默写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'write')).grid(row=i,column=3)
         Button(root,text='课程信息',command=lambda arg=path:lesson_info(root,libfile.readfile(arg))).grid(row=i,column=4)
@@ -75,105 +75,34 @@ root(tkinter.Tk):（包含三个Label属性的）根窗口'''
         need = sc.get_need_review_list(eval(i))
         needn = len(need)
         eval(i+'lab').config(text=f'{sub}需复习个数:{needn}')
-def remember(root:Tk,wlst:list):
+def remember(root:Tk):
     '''记忆模块界面
 root(tkinter.Tk):根窗口
 wslt(list):单词列表
 返回值:生词列表(list)'''
-    def hui4(): #会，进入看对错
-        translab.config(text=current_word.trans)
-        huibtn.grid_forget()
-        buhuibtn.grid_forget()
-        duibtn.grid(row=1,column=0)
-        buduibtn.grid(row=1,column=1)
-    def dui4(): #对，进入下一个单词
-        nonlocal index  #防止下一行的判断出现bug
-        if index+1 == len(wlst):  #如果是最后一个单词
-            msgbox.showinfo('提示','恭喜你学完本课',parent=win)
-            win.destroy()
-        else:
-            #隐藏按钮
-            duibtn.grid_forget()
-            buduibtn.grid_forget()
-            recitebtn.grid_forget()
-            translab.config(text='')
-
-            #初始化变量
-            nonlocal current_word   #index上面已经声明
-            index += 1
-            current_word = wlst[index]
-
-            #播放等
-            win.title(f'记忆 {index+1}/{len(wlst)}')
-            current_word.play()
-            wordlab.config(text=current_word.word)
-            pronlab.config(text=current_word.pronounce)
-            huibtn.grid(row=0,column=0)
-            buhuibtn.grid(row=0,column=1)
-    def bu4():  #不会/不对，进入复习
-        sclst.append(current_word)
-        translab.config(text=current_word.trans)
-        huibtn.grid_forget()
-        buhuibtn.grid_forget()
-        duibtn.grid_forget()
-        buduibtn.grid_forget()
-        recitebtn.grid(row=2)
-        recite(2)
-    def recite(ci4:int):   #下一次复习
-        '''复习
-ci(int):剩余复习次数'''
-        if ci4 <= -1: #复习完了   #使用`<=`防止出现bug  #使用`-1`为了满足复习3次
-            recitebtn.grid_forget()
-            dui4()
-        else:   #没复习完
-            current_word.play()
-            recitebtn.config(text=f'复习（剩余{ci4}次）',command=lambda:recite(ci4-1))
-
-    #排除空列表
-    if len(wlst) == 0:
-        msgbox.showinfo('提示','列表为空，无可学习')
-        return []
-
     #窗口初始化
     win = Toplevel(root)
     win.title('记忆')
 
     #放置组件
-    wordlab = Label(win);wordlab.pack()
-    pronlab = Label(win);pronlab.pack()
-    translab = Label(win);translab.pack()
-    btnsframe = Frame(win);btnsframe.pack()
-    huibtn = Button(btnsframe,text='会',command=hui4);huibtn.grid(row=0,column=0)
-    buhuibtn = Button(btnsframe,text='不会',command=bu4);buhuibtn.grid(row=0,column=1)
-    duibtn = Button(btnsframe,text='对',command=dui4);duibtn.grid(row=1,column=0)
-    buduibtn = Button(btnsframe,text='不对',command=bu4);buduibtn.grid(row=1,column=1)
-    recitebtn = Button(btnsframe,text='复习');recitebtn.grid(row=2) #command在函数中设置
+    win.wordlab = Label(win);win.wordlab.pack()
+    win.pronlab = Label(win);win.pronlab.pack()
+    win.translab = Label(win);win.translab.pack()
+    win.btnsframe = Frame(win);win.btnsframe.pack()
+    win.huibtn = Button(win.btnsframe,text='会');win.huibtn.grid(row=0,column=0)
+    win.buhuibtn = Button(win.btnsframe,text='不会');win.buhuibtn.grid(row=0,column=1)
+    win.duibtn = Button(win.btnsframe,text='对',);win.duibtn.grid(row=1,column=0)
+    win.buduibtn = Button(win.btnsframe,text='不对');win.buduibtn.grid(row=1,column=1)
+    win.recitebtn = Button(win.btnsframe,text='复习');win.recitebtn.grid(row=2) #command在函数中设置
 
     #默认隐藏按钮
-    huibtn.grid_forget()
-    buhuibtn.grid_forget()
-    duibtn.grid_forget()
-    buduibtn.grid_forget()
-    recitebtn.grid_forget()
+    win.huibtn.grid_forget()
+    win.buhuibtn.grid_forget()
+    win.duibtn.grid_forget()
+    win.buduibtn.grid_forget()
+    win.recitebtn.grid_forget()
 
-    #初始化各种变量
-    index = 0
-    sclst = []
-    current_word = None
-
-    #显示第一个单词
-    win.title(f'记忆 {index+1}/{len(wlst)}')
-    current_word = wlst[index]
-    current_word.play()
-    wordlab.config(text=current_word.word)
-    pronlab.config(text=current_word.pronounce)
-    huibtn.grid(row=0,column=0)
-    buhuibtn.grid(row=0,column=1)
-
-    #主循环与返回
-    win.mainloop()
-    return sclst
-    #现在问题:所有窗口(包括主窗口)都关闭后才会return
+    return win
 def listen(root:Tk,wlst:list)->list:
     '''听写窗口
 root(tkinter.Tk):根窗口
@@ -365,6 +294,11 @@ def download(root:Tk,wordnum:int):
     return update
 def show_notice(root:Tk,notice:str):
     msgbox.showinfo('公告',notice,parent=root)
+def showinfo(msg:str,parent=None):
+    '''显示提示信息
+msg(str):提示信息的内容
+parent(tkinter的窗口对象，包含Tk和Toplevel等):提示信息附属的窗口'''
+    msgbox.showinfo('提示',msg,parent=parent)
 def showerror(msg:str,parent=None):
     '''显示错误信息
 msg(str):错误信息的内容
