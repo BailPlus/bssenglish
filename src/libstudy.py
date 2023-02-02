@@ -4,6 +4,9 @@
 import libgui,libsc,libclass
 
 def remember(root:libgui.Tk,lesson:libclass.Lesson):
+    '''记忆模块
+root(tkinter.Tk):根窗口
+lesson(libclass.Lesson):课程对象'''
     def hui4(): #会，进入看对错
         translab.config(text=current_word.trans)
         huibtn.grid_forget()
@@ -57,15 +60,15 @@ ci(int):剩余复习次数'''
         win.destroy()
 
     #初始化各种变量
-    wlst = lesson.words
-    index = 0
-    sclst = []
-    current_word = None
+    wlst = lesson.words #单词列表
+    index = 0           #当前学习的单词在单词列表中的索引
+    sclst = []          #生词列表
+    current_word:libclass.Word = None   #当前学习的单词
 
     #排除空列表
     if len(wlst) == 0:
-        libgui.showinfo('列表为空，无可学习',parent=win)
-        return []
+        libgui.showinfo('列表为空，无可学习')   #由于没有弹出窗口，所以不设置parent参数
+        return
 
     #初始化界面
     win = libgui.remember(root)
@@ -85,3 +88,141 @@ ci(int):剩余复习次数'''
     pronlab.config(text=current_word.pronounce)
     huibtn.grid(row=0,column=0)
     buhuibtn.grid(row=0,column=1)
+def listen(root:libgui.Tk,lesson:libclass.Lesson):
+    '''听写模块
+root(tkinter.Tk):根窗口
+lesson(libclass.Lesson):课程对象'''
+    def enter():
+        nonlocal current_word,status,index,sclst
+
+        if status == None:  #未判
+            entry.config(state=libgui.DISABLED)
+            wordlab.config(text=current_word.word)
+            myinput = entry.get()
+            if myinput == current_word.word:
+                judgelab['text'] = '(v)'
+                status = True
+            else:
+                judgelab['text'] = '(x)'
+                sclst.append(current_word)
+                status = False
+        elif status == True:    #已判，正确
+            if index+1 == len(wlst):    #如果是最后一个单词
+                libgui.showinfo('恭喜你学完本课',parent=win)
+                close()
+            else:
+                #初始化变量
+                index += 1
+                current_word = wlst[index]
+
+                #显示下一个单词
+                win.title(f'听写 {index+1}/{len(wlst)}')
+                judgelab.config(text='')
+                entry.config(state=libgui.NORMAL)
+                entry.delete(0,libgui.END)
+                current_word.play()
+                pronlab.config(text=current_word.pronounce)
+                wordlab.config(text='')
+                status = None
+        elif status == False:   #已判，错误
+            judgelab.config(text='')
+            entry.config(state=libgui.NORMAL)
+            entry.delete(0,libgui.END)
+            current_word.play()
+            status = None
+    def close():
+        libsc.marks('listen',sclst)
+        win.destroy()
+
+    #初始化各种变量
+    wlst = lesson.words #单词列表
+    index = 0       #当前学习的单词在单词列表中的索引
+    status = None   #备选：None,True,False
+                    #None:未判；True:已判，正确；False:已判，错误
+    sclst = []      #生词列表
+    current_word:libclass.Word = None   #当前学习的单词
+
+    #排除空列表
+    if len(wlst) == 0:
+        libgui.showinfo('列表为空，无可学习')
+        return
+
+    #初始化界面
+    win = libgui.listen(root)
+    win.protocol('WM_DELETE_WINDOW',close)
+    pronlab,entry,judgelab,wordlab = win.pronlab,win.entry,win.judgelab,win.wordlab
+    entry.bind('<Return>',lambda event:enter())
+    entry.bind('<Control_L>',lambda event:current_word.play())
+
+    #显示第一个单词
+    win.title(f'听写 {index+1}/{len(wlst)}')
+    current_word = wlst[index]
+    current_word.play()
+    pronlab.config(text=current_word.pronounce)
+def write(root:libgui.Tk,lesson:libclass.Lesson):
+    '''默写模块
+root(tkinter.Tk):根窗口
+lesson(libclass.Lesson):课程对象'''
+    def enter():
+        nonlocal current_word,status,index,sclst
+
+        if status == None:  #未判
+            entry.config(state=libgui.DISABLED)
+            wordlab.config(text=current_word.word)
+            myinput = entry.get()
+            if myinput == current_word.word:
+                judgelab['text'] = '(v)'
+                status = True
+            else:
+                judgelab['text'] = '(x)'
+                sclst.append(current_word)
+                status = False
+        elif status == True:    #已判，正确
+            if index+1 == len(wlst):    #如果是最后一个单词
+                libgui.showinfo('恭喜你学完本课',parent=win)
+                close()
+            else:
+                #初始化变量
+                index += 1
+                current_word = wlst[index]
+
+                #显示下一个单词
+                win.title(f'默写 {index+1}/{len(wlst)}')
+                judgelab.config(text='')
+                entry.config(state=libgui.NORMAL)
+                entry.delete(0,libgui.END)
+                translab.config(text=current_word.trans)
+                wordlab.config(text='')
+                status = None
+        elif status == False:   #已判，错误
+            judgelab.config(text='')
+            entry.config(state=libgui.NORMAL)
+            entry.delete(0,libgui.END)
+            status = None
+    def close():
+        libsc.marks('write',sclst)
+        win.destroy()
+
+    #初始化各种变量
+    wlst = lesson.words #单词列表
+    index = 0       #当前学习的单词在单词列表中的索引
+    status = None   #备选：None,True,False
+                    #None:未判；True:已判，正确；False:已判，错误
+    sclst = []      #生词列表
+    current_word:libclass.Word = None   #当前学习的单词
+
+    #排除空列表
+    if len(wlst) == 0:
+        libgui.showinfo('列表为空，无可学习')
+        return
+
+    #初始化界面
+    win = libgui.write(root)
+    win.protocol('WM_DELETE_WINDOW',close)
+    translab,entry,judgelab,wordlab = win.translab,win.entry,win.judgelab,win.wordlab
+    entry.bind('<Return>',lambda event:enter())
+
+    #显示第一个单词
+    win.title(f'默写 {index+1}/{len(wlst)}')
+    current_word = wlst[index]
+    translab.config(text=current_word.trans)

@@ -24,11 +24,6 @@ else:
 sys.path.append(import_path)
 import libgui,libfile,libsc,init,libnotice
 
-def learnctrl(root:Tk,wlst:list,sctype:str):
-    sclst = eval(f'libgui.{sctype}')(root,wlst)
-    for i in sclst:
-        libsc.mark(i,eval(f'libsc.{sctype[:3]}lst'))
-    libsc.savefile()
 def loadplugins():
     '''加载模块'''
     sys.path.append('.',)   #这是什么鬼东西？

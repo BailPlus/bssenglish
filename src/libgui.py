@@ -50,8 +50,8 @@ def inroot(root:Tk,fnlst:list):
         lesson_title = libfile.readfile(path).name
         Label(root,text=lesson_title).grid(row=i,column=0)
         Button(root,text='记忆',command=lambda arg=path:libstudy.remember(root,libfile.readfile(arg))).grid(row=i,column=1)
-        Button(root,text='听写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'listen')).grid(row=i,column=2)
-        Button(root,text='默写',command=lambda arg=path:bss.learnctrl(root,libfile.readfile(arg).words,'write')).grid(row=i,column=3)
+        Button(root,text='听写',command=lambda arg=path:libstudy.listen(root,libfile.readfile(arg))).grid(row=i,column=2)
+        Button(root,text='默写',command=lambda arg=path:libstudy.write(root,libfile.readfile(arg))).grid(row=i,column=3)
         Button(root,text='课程信息',command=lambda arg=path:lesson_info(root,libfile.readfile(arg))).grid(row=i,column=4)
         Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i,column=5)
 def count_need_review(root:Tk):
@@ -78,8 +78,7 @@ root(tkinter.Tk):（包含三个Label属性的）根窗口'''
 def remember(root:Tk):
     '''记忆模块界面
 root(tkinter.Tk):根窗口
-wslt(list):单词列表
-返回值:生词列表(list)'''
+返回值：带有组件属性的记忆窗口(tkinter.Toplevel)'''
     #窗口初始化
     win = Toplevel(root)
     win.title('记忆')
@@ -103,162 +102,37 @@ wslt(list):单词列表
     win.recitebtn.grid_forget()
 
     return win
-def listen(root:Tk,wlst:list)->list:
-    '''听写窗口
+def listen(root:Tk)->list:
+    '''听写模块界面
 root(tkinter.Tk):根窗口
-wlst(list):单词列表
-返回值:生词列表(list)'''
-    def enter():
-        nonlocal current_word,status,index,sclst
-
-        if status == None:  #未判
-            entry.config(state=DISABLED)
-            wordlab.config(text=current_word.word)
-            myinput = entry.get()
-            if myinput == current_word.word:
-                judgelab['text'] = '(v)'
-                status = True
-            else:
-                judgelab['text'] = '(x)'
-                sclst.append(current_word)
-                status = False
-        elif status == True:    #已判，正确
-            if index+1 == len(wlst):    #如果是最后一个单词
-                msgbox.showinfo('提示','恭喜你学完本课',parent=win)
-                win.destroy()
-            else:
-                #初始化变量
-                index += 1
-                current_word = wlst[index]
-
-                #显示下一个单词
-                win.title(f'听写 {index+1}/{len(wlst)}')
-                judgelab.config(text='')
-                entry.config(state=NORMAL)
-                entry.delete(0,END)
-                current_word.play()
-                pronlab.config(text=current_word.pronounce)
-                wordlab.config(text='')
-                status = None
-        elif status == False:   #已判，错误
-            judgelab.config(text='')
-            entry.config(state=NORMAL)
-            entry.delete(0,END)
-            current_word.play()
-            status = None
-
-    #排除空列表
-    if len(wlst) == 0:
-        msgbox.showinfo('提示','列表为空，无可学习')
-        return []
-
+返回值:带有组件属性的听写窗口(tkinter.Toplevel)'''
     #窗口初始化
     win = Toplevel(root)
     win.title('听写')
 
     #放置组件
-    pronlab = Label(win);pronlab.grid(row=0)
-    entry = Entry(win);entry.grid(row=1,column=0)
-    judgelab = Label(win);judgelab.grid(row=1,column=1)
-    wordlab = Label(win);wordlab.grid(row=2)
+    win.pronlab = Label(win);win.pronlab.grid(row=0)
+    win.entry = Entry(win);win.entry.grid(row=1,column=0)
+    win.judgelab = Label(win);win.judgelab.grid(row=1,column=1)
+    win.wordlab = Label(win);win.wordlab.grid(row=2)
 
-    #输入框绑定信号
-    entry.bind('<Return>',lambda event:enter())
-    entry.bind('<Control_L>',lambda event:current_word.play())
-
-    #初始化各种变量
-    index = 0
-    status = None   #备选：None,True,False
-                    #None:未判；True:已判，正确；False:已判，错误
-    sclst = []
-    current_word = None
-
-    #显示第一个单词
-    win.title(f'听写 {index+1}/{len(wlst)}')
-    current_word = wlst[index]
-    current_word.play()
-    pronlab.config(text=current_word.pronounce)
-
-    #主循环与返回
-    win.mainloop()
-    return sclst
+    return win
     #现在问题:所有窗口(包括主窗口)都关闭后才会return
-def write(root:Tk,wlst:list)->list:
-    '''默写窗口
+def write(root:Tk)->list:
+    '''默写模块界面
 root(tkinter.Tk):根窗口
-wlst(list):单词列表
-返回值:生词列表(list)'''
-    def enter():
-        nonlocal current_word,status,index,sclst
-
-        if status == None:  #未判
-            entry.config(state=DISABLED)
-            wordlab.config(text=current_word.word)
-            myinput = entry.get()
-            if myinput == current_word.word:
-                judgelab['text'] = '(v)'
-                status = True
-            else:
-                judgelab['text'] = '(x)'
-                sclst.append(current_word)
-                status = False
-        elif status == True:    #已判，正确
-            if index+1 == len(wlst):    #如果是最后一个单词
-                msgbox.showinfo('提示','恭喜你学完本课',parent=win)
-                win.destroy()
-            else:
-                #初始化变量
-                index += 1
-                current_word = wlst[index]
-
-                #显示下一个单词
-                win.title(f'默写 {index+1}/{len(wlst)}')
-                judgelab.config(text='')
-                entry.config(state=NORMAL)
-                entry.delete(0,END)
-                translab.config(text=current_word.trans)
-                wordlab.config(text='')
-                status = None
-        elif status == False:   #已判，错误
-            judgelab.config(text='')
-            entry.config(state=NORMAL)
-            entry.delete(0,END)
-            status = None
-
-    #排除空列表
-    if len(wlst) == 0:
-        msgbox.showinfo('提示','列表为空，无可学习')
-        return []
-
+返回值:带有组件属性的默写窗口(tkinter.Toplevel)'''
     #窗口初始化
     win = Toplevel(root)
     win.title('默写')
 
     #放置组件
-    translab = Label(win);translab.grid(row=0)
-    entry = Entry(win);entry.grid(row=1,column=0)
-    judgelab = Label(win);judgelab.grid(row=1,column=1)
-    wordlab = Label(win);wordlab.grid(row=2)
+    win.translab = Label(win);win.translab.grid(row=0)
+    win.entry = Entry(win);win.entry.grid(row=1,column=0)
+    win.judgelab = Label(win);win.judgelab.grid(row=1,column=1)
+    win.wordlab = Label(win);win.wordlab.grid(row=2)
 
-    #输入框绑定信号
-    entry.bind('<Return>',lambda event:enter())
-    entry.bind('<Control_L>',lambda event:current_word.play())
-
-    #初始化各种变量
-    index = 0
-    status = None   #备选：None,True,False
-                    #None:未判；True:已判，正确；False:已判，错误
-    sclst = []
-    current_word = None
-
-    #显示第一个单词
-    win.title(f'默写 {index+1}/{len(wlst)}')
-    current_word = wlst[index]
-    translab.config(text=current_word.trans)
-
-    #主循环与返回
-    win.mainloop()
-    return sclst
+    return win
     #现在问题:所有窗口(包括主窗口)都关闭后才会return
 def lesson_info(root:Tk,lesson:libclass.Lesson):
     '''课程信息（原为“单词本”）
