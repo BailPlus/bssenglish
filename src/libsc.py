@@ -3,7 +3,7 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import time,libclass,liblist,os,libfile,libgui
+import time,libclass,os,libfile,libgui,libstudy
 
 remlst = [];lislst = [];wrilst = []
 
@@ -40,7 +40,7 @@ root(Tk):bss根窗口'''
     #记忆模块生词
     screm = LabelFrame(scmain,text='记忆模块');screm.pack()
     rembtns = Frame(screm);rembtns.pack()
-    Button(rembtns,text='立即复习',command=lambda:review(scmain,'remember'),state=DISABLED).grid()
+    Button(rembtns,text='立即复习',command=lambda:review(scmain,'remember')).grid()
 ##    Button(rembtns,text='导入',command=lambda:imp(remlst)).grid(row=0,column=1)
 ##    Button(rembtns,text='导出',command=lambda:exp(remlst)).grid(row=0,column=2)
     remtree = ttk.Treeview(screm,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));remtree.pack()
@@ -55,7 +55,7 @@ root(Tk):bss根窗口'''
     #听写模块生词
     sclis = LabelFrame(scmain,text='听写模块');sclis.pack()
     lisbtns = Frame(sclis);lisbtns.pack()
-    Button(lisbtns,text='立即复习',command=lambda:review(scmain,'listen'),state=DISABLED).grid()
+    Button(lisbtns,text='立即复习',command=lambda:review(scmain,'listen')).grid()
 ##    Button(lisbtns,text='导入',command=lambda:imp(lislst)).grid(row=0,column=1)
 ##    Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
     listree = ttk.Treeview(sclis,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));listree.pack()
@@ -70,7 +70,7 @@ root(Tk):bss根窗口'''
     #默写模块生词
     scwri = LabelFrame(scmain,text='默写模块');scwri.pack()
     wribtns = Frame(scwri);wribtns.pack()
-    Button(wribtns,text='立即复习',command=lambda:review(scmain,'write'),state=DISABLED).grid()
+    Button(wribtns,text='立即复习',command=lambda:review(scmain,'write')).grid()
 ##    Button(wribtns,text='导入',command=lambda:imp(wrilst)).grid(row=0,column=1)
 ##    Button(wribtns,text='导出',command=lambda:exp(wrilst)).grid(row=0,column=2)
     writree = ttk.Treeview(scwri,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));writree.pack()
@@ -191,23 +191,44 @@ word(libclass.Sc):生词对象
         return 28*day*x+530*day+10*hour+11*minute+40
     else:
         raise ValueError('值超出范围')
-def mark(word:libclass.Word,lst:list):
-    '''将单词标记为生词
-word(libclass.Word):要标记的单词对象
-lst:要存入的列表'''
-    for i in lst:
-        if word == i:   #如果生词已存在
-            i.learn += 1
-            i.wrong += 1
-            return
-    sc = libclass.Sc(word.word,word.pronounce,word.trans,1,1,int(time.time()))
-    lst.append(sc)
-def marks(study_type:str,sclst:list):
-    '''将多个单词标记为生词
+def mark(study_type:str,sclst:list,huilst:list):
+    '''处理生词与熟词
 study_type(str):课程类型 备选：remember,listen,write
-sclst(list):生词列表'''
+sclst(list):生词列表
+huilst(list):熟词列表'''
+    #根据类型获取数据列表
+    if study_type == 'remember':
+        data = remlst
+    elif study_type == 'listen':
+        data = lislst
+    elif study_type == 'write':
+        data = wrilst
+    else:
+        raise ValueError(f'非法的学习类型: {study_type}')
+
+    #处理生词
     for i in sclst:
-        mark(i,eval(study_type[:3]+'lst'))
+        for j in data:
+            if i == j:   #如果生词已存在
+                j.learn += 1
+                j.wrong += 1
+                j.review = int(time.time()+deltatime(j))
+                break
+            else:
+                sc = libclass.Sc(i.word,i.pronounce,i.trans,1,1,int(time.time()))
+                data.append(sc)
+
+    #处理熟词
+    for i in huilst:
+        for j in data:
+            if i == j:  #如果存在对应生词
+                j.learn += 1
+                j.review = int(time.time()+deltatime(j))
+
+    #删除熟记生词
+    for i in data:
+        if i.strenth() > 0.95:
+            data.remove(i)
 def get_need_review_list(lst:list):
     '''分出需要复习的词
 lst(list):生词列表
@@ -225,28 +246,22 @@ lst(list):该类型的生词列表
 sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函数'''
     #获取对应列表
     if sctype == 'remember':
-        lst = remlst
+        data = remlst
+        func = libstudy.remember
     elif sctype == 'listen':
-        lst = lislst
+        data = lislst
+        func = libstudy.listen
+    elif sctype == 'write':
+        data = wrilst
+        func = libstudy.write
     else:
-        lst = wrilst
+        raise ValueError(f'非法的学习类型: {sctype}')
+
     #分出需要复习的词
-    sclst = get_need_review_list(lst)
+    sclst = get_need_review_list(data)
+
     #复习生词
-    relst = eval(f'libgui.{sctype}')(scmain,sclst)  #这个列表不是会的单词
-    #处理生词
-    olst = liblist.other(relst,sclst)   #这个列表是会的单词
-    for i in olst:
-        i.learn += 1
-        i.review = int(time.time()+deltatime(i))
-    for i in relst:
-        i.learn += 1
-        i.wrong += 1
-        i.review = int(time.time()+deltatime(i))
-    #删除熟记生词
-    for i in sclst:
-        if i.strenth() > 0.95:
-            lst.remove(i)
+    func(scmain,sclst)
 def savefile():
     '''将生词列表保存到文件'''
     for i in ('rem','lis','wri'):

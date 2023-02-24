@@ -49,9 +49,9 @@ def inroot(root:Tk,fnlst:list):
             continue
         lesson_title = libfile.readfile(path).name
         Label(root,text=lesson_title).grid(row=i,column=0)
-        Button(root,text='记忆',command=lambda arg=path:libstudy.remember(root,libfile.readfile(arg))).grid(row=i,column=1)
-        Button(root,text='听写',command=lambda arg=path:libstudy.listen(root,libfile.readfile(arg))).grid(row=i,column=2)
-        Button(root,text='默写',command=lambda arg=path:libstudy.write(root,libfile.readfile(arg))).grid(row=i,column=3)
+        Button(root,text='记忆',command=lambda arg=path:libstudy.remember(root,libfile.readfile(arg).words)).grid(row=i,column=1)
+        Button(root,text='听写',command=lambda arg=path:libstudy.listen(root,libfile.readfile(arg).words)).grid(row=i,column=2)
+        Button(root,text='默写',command=lambda arg=path:libstudy.write(root,libfile.readfile(arg).words)).grid(row=i,column=3)
         Button(root,text='课程信息',command=lambda arg=path:lesson_info(root,libfile.readfile(arg))).grid(row=i,column=4)
         Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i,column=5)
 def count_need_review(root:Tk):
