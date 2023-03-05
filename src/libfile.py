@@ -3,7 +3,7 @@
 
 from tkinter import filedialog  #将在后期替换为libgui.filedialog，为了代码整洁
 from typing import Generator    #用于描述类型
-import os,libclass,csv,shutil,libgui,bss,json
+import os,libclass,csv,shutil,libgui,bss,json,hashlib
 
 OSNAME = bss.OSNAME
 LESSON_FILE_HEADER = 'bssenglish lesson file\n' #课程文件头
@@ -106,3 +106,17 @@ def add_lesson():
         libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
     else:
         libgui.showerror('你选择的不是课程文件，请重新选择')
+def get_file_md5(file_name)->str:
+    '''计算文件的md5
+file_name(str):文件路径
+返回值:文件的md5(str)
+
+鸣谢：墨痕诉清风 (https://blog.csdn.net/u012206617/article/details/108083431)'''
+    m = hashlib.md5()   #创建md5对象
+    with open(file_name,'rb') as fobj:
+        while True:
+            data = fobj.read(4096)
+            if not data:
+                break
+            m.update(data)  #更新md5对象
+    return m.hexdigest()    #返回md5对象
