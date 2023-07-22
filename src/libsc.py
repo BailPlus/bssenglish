@@ -214,9 +214,9 @@ huilst(list):熟词列表'''
                 j.wrong += 1
                 j.review = int(time.time()+deltatime(j))
                 break
-            else:
-                sc = libclass.Sc(i.word,i.pronounce,i.trans,1,1,int(time.time()))
-                data.append(sc)
+        else:   #如果生词不存在
+            sc = libclass.Sc(i.word,i.pronounce,i.trans,1,1,int(time.time()))
+            data.append(sc)
 
     #处理熟词
     for i in huilst:
