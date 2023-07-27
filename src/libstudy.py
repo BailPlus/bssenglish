@@ -66,7 +66,7 @@ ci(int):剩余复习次数'''
 
     #初始化各种变量
     wlst = lesson.words #单词列表
-    index = 0           #当前学习的单词在单词列表中的索引
+    index = lesson.progress[0]  #当前学习的单词在单词列表中的索引
     sclst = []          #生词列表
     huilst = []         #熟词列表
     current_word:libclass.Word = None   #当前学习的单词
@@ -156,7 +156,7 @@ wlst(list):包含要学习的单词对象的列表'''
 
     #初始化各种变量
     wlst = lesson.words #单词列表
-    index = 0       #当前学习的单词在单词列表中的索引
+    index = lesson.progress[1]  #当前学习的单词在单词列表中的索引
     status = None   #备选：None,True,False,'copy'
                     #None:未判；True:已判，正确；False:已判，错误；'copy':抄写
     sclst = []      #生词列表
@@ -240,7 +240,7 @@ wlst(list):包含要学习的单词对象的列表'''
 
     #初始化各种变量
     wlst = lesson.words #单词列表
-    index = 0       #当前学习的单词在单词列表中的索引
+    index = lesson.progress[2]  #当前学习的单词在单词列表中的索引
     status = None   #备选：None,True,False,'copy'
                     #None:未判；True:已判，正确；False:已判，错误；'copy':抄写
     sclst = []      #生词列表
