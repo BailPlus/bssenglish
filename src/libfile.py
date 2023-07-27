@@ -75,7 +75,11 @@ fn(str):文件名
         lesson_info = json.loads(file.readline())
     #读取课程内容
     words = tuple(libclass.Word(*i) for i in readfromcsv(fn,2))
-    lesson = libclass.Lesson(**lesson_info,words=words)   #使用`words=words`是为了避免参数传乱出现bug
+    md5 = get_file_md5(fn)
+    progress_file_name = os.path.join(path['progress'],md5)
+    with open(progress_file_name) as progress_file:
+        progress = list(map(int,progress_file.readlines()))
+    lesson = libclass.Lesson(**lesson_info,words=words,md5=md5,progress=progress)   #使用`words=words`是为了避免参数传乱出现bug
     return lesson
 def readfromcsv(fn:str=None,jump_lines:int=1)->list:
     '''从csv读取内容

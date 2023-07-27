@@ -35,11 +35,20 @@ def makenotice():
     print('开始创建公告处理文件')
     path = os.path.join(libfile.getpath('notice'),'newest.md5')
     create('file',path)
+def makeprogress():
+    for i in os.listdir(libfile.path['lessons']):
+        fn = os.path.join(libfile.path['lessons'],i)
+        md5 = libfile.get_file_md5(fn)
+        path = os.path.join(libfile.path['progress'],md5)
+        if not os.path.exists(path):
+            with open(path,'w') as file:
+                file.write(os.linesep.join(('0','0','0')))
 def main():
     print('开始初始化')
     makedir()
     makedata()
     makenotice()
+    makeprogress()
     print('初始化完毕')
     return 0
 
