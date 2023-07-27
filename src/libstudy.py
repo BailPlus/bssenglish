@@ -61,6 +61,7 @@ ci(int):剩余复习次数'''
             buhuibtn.grid(row=0,column=1)
     def close():
         libsc.mark('remember',sclst,huilst)
+        lesson.progress[0] = index
         win.destroy()
 
     #初始化各种变量
@@ -150,6 +151,7 @@ wlst(list):包含要学习的单词对象的列表'''
             raise ValueError(f'错误的状态: {status}')
     def close():
         libsc.mark('listen',sclst,huilst)
+        lesson.progress[1] = index
         win.destroy()
 
     #初始化各种变量
@@ -233,6 +235,7 @@ wlst(list):包含要学习的单词对象的列表'''
             raise ValueError(f'错误的状态: {status}')
     def close():
         libsc.mark('write',sclst,huilst)
+        lesson.progress[2] = index
         win.destroy()
 
     #初始化各种变量
