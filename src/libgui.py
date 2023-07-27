@@ -41,19 +41,15 @@ def root():
 
     Label(root,text='特别鸣谢：红杉树智能英语(http://www.hssenglish.com)提供运行逻辑',fg='#7f7f7f').pack(side=BOTTOM,fill=X)
     return root
-def inroot(root:Tk,fnlst:list):
+def inroot(root:Tk,lessonlst:list):
     root = root.lessons_frame
-    for i,path in enumerate(fnlst):
-        if not libfile.islessonfile(path):  #如果不是课程文件则跳过
-            print(f'W: {path} 不是课程文件')
-            continue
-        lesson_title = libfile.readfile(path).name
-        Label(root,text=lesson_title).grid(row=i,column=0)
-        Button(root,text='记忆',command=lambda arg=path:libstudy.remember(root,libfile.readfile(arg).words)).grid(row=i,column=1)
-        Button(root,text='听写',command=lambda arg=path:libstudy.listen(root,libfile.readfile(arg).words)).grid(row=i,column=2)
-        Button(root,text='默写',command=lambda arg=path:libstudy.write(root,libfile.readfile(arg).words)).grid(row=i,column=3)
-        Button(root,text='课程信息',command=lambda arg=path:lesson_info(root,libfile.readfile(arg))).grid(row=i,column=4)
-        Button(root,text='下载音频',command=lambda arg=path:libaudio.download(root,libfile.readfile(arg).words)).grid(row=i,column=5)
+    for i,lesson in enumerate(lessonlst):
+        Label(root,text=lesson.name).grid(row=i,column=0)
+        Button(root,text='记忆',command=lambda arg=lesson:libstudy.remember(root,arg)).grid(row=i,column=1)
+        Button(root,text='听写',command=lambda arg=lesson:libstudy.listen(root,arg)).grid(row=i,column=2)
+        Button(root,text='默写',command=lambda arg=lesson:libstudy.write(root,arg)).grid(row=i,column=3)
+        Button(root,text='课程信息',command=lambda arg=lesson:lesson_info(root,arg)).grid(row=i,column=4)
+        Button(root,text='下载音频',command=lambda arg=lesson:libaudio.download(root,arg)).grid(row=i,column=5)
 def count_need_review(root:Tk):
     '''统计需要复习的单词数
 root(tkinter.Tk):（包含三个Label属性的）根窗口'''
@@ -178,9 +174,10 @@ def showerror(msg:str,parent=None):
 msg(str):错误信息的内容
 parent(tkinter的窗口对象，包含Tk和Toplevel等):错误信息附属的窗口'''
     msgbox.showerror('错误',msg,parent=parent)
-def init(root:Tk):
+def init(root:Tk,lessonlst:list):
     '''初始化界面
-root(tkinter.Tk):根窗口'''
-    inroot(root,libfile.getfile())
+root(tkinter.Tk):根窗口
+lessonlst(list):课程对象列表'''
+    inroot(root,lessonlst)
     count_need_review(root)
     print('界面初始化完毕')

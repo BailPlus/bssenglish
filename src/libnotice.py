@@ -21,7 +21,7 @@ urlprefix = libnetwork.APISOURCE+'notice/'
 ##filename = os.path.join(libfile.getpath('notice'),'newest.md5')
 # 修复方法：先定义一个空白的全局变量，再在函数中赋值。
 filename = ''   #在isread函数中赋值
-# 定义空白变量可以是代码逻辑更加清晰
+# 定义空白变量可以使代码逻辑更加清晰
 
 def fetch_md5()->str:
     '''获取远程公告md5

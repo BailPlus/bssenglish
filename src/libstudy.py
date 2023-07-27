@@ -1,9 +1,9 @@
 #Copyright Bail 2023
-#bssenglish:liblearn 学习模块
+#bssenglish:libstudy 学习模块
 
 import libgui,libsc,libclass
 
-def remember(root:libgui.Tk,wlst:list):
+def remember(root:libgui.Tk,lesson:libclass.Lesson):
     '''记忆模块
 root(tkinter.Tk):根窗口
 wlst(list):包含要学习的单词对象的列表'''
@@ -64,6 +64,7 @@ ci(int):剩余复习次数'''
         win.destroy()
 
     #初始化各种变量
+    wlst = lesson.words #单词列表
     index = 0           #当前学习的单词在单词列表中的索引
     sclst = []          #生词列表
     huilst = []         #熟词列表
@@ -92,7 +93,7 @@ ci(int):剩余复习次数'''
     pronlab.config(text=current_word.pronounce)
     huibtn.grid(row=0,column=0)
     buhuibtn.grid(row=0,column=1)
-def listen(root:libgui.Tk,wlst:list):
+def listen(root:libgui.Tk,lesson:libclass.Lesson):
     '''听写模块
 root(tkinter.Tk):根窗口
 wlst(list):包含要学习的单词对象的列表'''
@@ -152,6 +153,7 @@ wlst(list):包含要学习的单词对象的列表'''
         win.destroy()
 
     #初始化各种变量
+    wlst = lesson.words #单词列表
     index = 0       #当前学习的单词在单词列表中的索引
     status = None   #备选：None,True,False,'copy'
                     #None:未判；True:已判，正确；False:已判，错误；'copy':抄写
@@ -176,7 +178,7 @@ wlst(list):包含要学习的单词对象的列表'''
     current_word = wlst[index]
     current_word.play()
     pronlab.config(text=current_word.pronounce)
-def write(root:libgui.Tk,wlst:list):
+def write(root:libgui.Tk,lesson:libclass.Lesson):
     '''默写模块
 root(tkinter.Tk):根窗口
 wlst(list):包含要学习的单词对象的列表'''
@@ -234,6 +236,7 @@ wlst(list):包含要学习的单词对象的列表'''
         win.destroy()
 
     #初始化各种变量
+    wlst = lesson.words #单词列表
     index = 0       #当前学习的单词在单词列表中的索引
     status = None   #备选：None,True,False,'copy'
                     #None:未判；True:已判，正确；False:已判，错误；'copy':抄写

@@ -5,7 +5,8 @@
 
 import os,libgui,tqdm,playsound,libclass,libfile,libnetwork,threading
 
-def download(root:libgui.Tk,wlst:list):
+def download(root:libgui.Tk,lesson:libclass.Lesson):
+    wlst = lesson.words
     files = os.listdir(libfile.getpath('audio'))
     barlst = tqdm.tqdm(wlst)
     update = libgui.download(root,len(wlst))

@@ -2,8 +2,7 @@
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog  #将在后期替换为libgui.filedialog，为了代码整洁
-from typing import Generator    #用于描述类型
-import os,libclass,csv,shutil,libgui,bss,json,hashlib
+import os,libclass,csv,shutil,libgui,bss,json,hashlib,traceback
 
 OSNAME = bss.OSNAME
 LESSON_FILE_HEADER = 'bssenglish lesson file\n' #课程文件头
@@ -39,12 +38,24 @@ path1 = {
 }
 path = {**path,**path1}
 
-def getfile()->Generator:
-    '''获取所有课程文件
-返回值:生成器，包含所有课程文件'''
+def getlessons()->list:
+    '''获取所有课程
+返回值:包含所有课程对象的列表(list)'''
     lst = os.listdir(getpath('lessons'))	#检测文件
+    lessonlst = []
     for i in lst:
-        yield os.path.join(getpath('lessons'),i)	#返回文件名
+        fn = os.path.join(getpath('lessons'),i)
+        if islessonfile(fn):
+            try:
+                lesson = readfile(fn)
+            except Exception:
+                print(f'E: "{fn}"课程文件已损坏')
+                traceback.print_exc()
+            else:
+                lessonlst.append(lesson)
+        else:
+            print(f'W: "{fn}"不是课程文件')
+    return lessonlst
 def islessonfile(fn:str)->bool:
     '''判断是否为课程文件（通过比对文件头）
 fn(str):文件名
@@ -63,8 +74,7 @@ fn(str):文件名
         file.readline()
         lesson_info = json.loads(file.readline())
     #读取课程内容
-    lst = readfromcsv(fn,2) #我也不知道该起啥名
-    words = tuple(libclass.Word(*i) for i in lst)
+    words = tuple(libclass.Word(*i) for i in readfromcsv(fn,2))
     lesson = libclass.Lesson(**lesson_info,words=words)   #使用`words=words`是为了避免参数传乱出现bug
     return lesson
 def readfromcsv(fn:str=None,jump_lines:int=1)->list:
@@ -106,7 +116,7 @@ def add_lesson():
         libgui.msgbox.showinfo('添加成功','课程添加成功，请重启程序。')
     else:
         libgui.showerror('你选择的不是课程文件，请重新选择')
-def get_file_md5(file_name)->str:
+def get_file_md5(file_name:str)->str:
     '''计算文件的md5
 file_name(str):文件路径
 返回值:文件的md5(str)

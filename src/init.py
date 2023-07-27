@@ -2,7 +2,7 @@
 #bssenglish:init 程序初始化
 #2021.10.16-2023.1.17
 
-import sys,os,libsc,shelve,libfile
+import sys,os,libsc,libfile
 
 def create(type:str,path:str):
     '''创建
@@ -14,9 +14,9 @@ path(str):文件名'''
         if type == 'dir':           #如果创建目录
             os.makedirs(path)
         elif type == 'file':        #如果创建文件
-            open(path,'w').close()      #如果换位a模式可能会防止删库。待辩证
+            open(path,'a').close()
         else:
-            raise TypeError('不存在的创建类型')
+            raise ValueError('不存在的创建类型')
         print(f'已创建：{path}')
 def makedir():
     print('开始创建数据目录')
