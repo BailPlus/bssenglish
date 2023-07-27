@@ -49,6 +49,7 @@ def main():
 ##    libgui.inroot(root,files)
     root.mainloop()
     libsc.savefile()
+    libfile.saveprogress(lessonlst)
     return 0
 
 if __name__ == '__main__':

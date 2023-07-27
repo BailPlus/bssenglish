@@ -134,3 +134,10 @@ file_name(str):文件路径
                 break
             m.update(data)  #更新md5对象
     return m.hexdigest()    #返回md5对象
+def saveprogress(lessonlst:list):
+    '''保存课程进度
+lessonlst(list[libclass.Lesson]):课程对象列表'''
+    for i in lessonlst:
+        progress_file_name = os.path.join(path['progress'],i.md5)
+        with open(progress_file_name,'w') as progress_file:
+            progress_file.write(os.linesep.join(map(str,i.progress)))
