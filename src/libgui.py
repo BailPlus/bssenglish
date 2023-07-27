@@ -45,9 +45,9 @@ def inroot(root:Tk,lessonlst:list):
     root = root.lessons_frame
     for i,lesson in enumerate(lessonlst):
         Label(root,text=lesson.name).grid(row=i,column=0)
-        Button(root,text='记忆',command=lambda arg=lesson:libstudy.remember(root,arg)).grid(row=i,column=1)
-        Button(root,text='听写',command=lambda arg=lesson:libstudy.listen(root,arg)).grid(row=i,column=2)
-        Button(root,text='默写',command=lambda arg=lesson:libstudy.write(root,arg)).grid(row=i,column=3)
+        Button(root,text=f'记忆 {lesson.progress[0]}/{len(lesson.words)}',command=lambda arg=lesson:libstudy.remember(root,arg)).grid(row=i,column=1)
+        Button(root,text=f'听写 {lesson.progress[1]}/{len(lesson.words)}',command=lambda arg=lesson:libstudy.listen(root,arg)).grid(row=i,column=2)
+        Button(root,text=f'默写 {lesson.progress[2]}/{len(lesson.words)}',command=lambda arg=lesson:libstudy.write(root,arg)).grid(row=i,column=3)
         Button(root,text='课程信息',command=lambda arg=lesson:lesson_info(root,arg)).grid(row=i,column=4)
         Button(root,text='下载音频',command=lambda arg=lesson:libaudio.download(root,arg)).grid(row=i,column=5)
 def count_need_review(root:Tk):
