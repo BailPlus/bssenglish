@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2023
-#bssenglish 白杉树背单词训练软件 v2.0.1_66
-#2021.7.11-2023.1.27
+#bssenglish 白杉树背单词训练软件 v2.1_67
+#2021.7.11-2023.7.28
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -11,7 +11,7 @@
 from tkinter import Tk
 import sys,os
 #按系统类型配置导入模块的目录
-OSNAME = 'deepin'   #备选:None,deepin,termux
+OSNAME = None   #备选:None,deepin,termux
 OSNAME = OSNAME if OSNAME else os.name
 if OSNAME in ('nt','deepin'):
     import_path = '.'
