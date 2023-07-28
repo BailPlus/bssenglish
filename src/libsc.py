@@ -259,9 +259,10 @@ sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函�
 
     #分出需要复习的词
     sclst = get_need_review_list(data)
+    lesson = libclass.Lesson(sclst,'',[0,0,0],name='sc',fullname='sc',author='bssenglish',file_version=-1)
 
     #复习生词
-    func(scmain,sclst)
+    func(scmain,lesson)
 def savefile():
     '''将生词列表保存到文件'''
     for i in ('rem','lis','wri'):
