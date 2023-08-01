@@ -3,7 +3,7 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import time,libclass,os,libfile,libgui,libstudy
+import time,libclass,os,libfile,libgui,libstudy,random
 
 remlst = [];lislst = [];wrilst = []
 
@@ -259,6 +259,7 @@ sctype(str:remember/listen/write):生词类型名称，用于调用libgui的函�
 
     #分出需要复习的词
     sclst = get_need_review_list(data)
+    random.shuffle(sclst)
     lesson = libclass.Lesson(sclst,'',[0,0,0],name='sc',fullname='sc',author='bssenglish',file_version=-1)
 
     #复习生词
