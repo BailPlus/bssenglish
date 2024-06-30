@@ -152,7 +152,7 @@ root(tkinter.Tk):根窗口
 wordnum(int):单词数量
 返回值:用于更新进度条的函数(func)'''
     def update(value:int):
-        per = int(value/wordnum)*100
+        per = int(value/wordnum*100)
         bar['value'] = per
         label['text'] = f'{per}%'
         down.update()

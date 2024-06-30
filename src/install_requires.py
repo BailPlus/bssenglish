@@ -2,7 +2,7 @@
 #bssenglish:install_requires 依赖安装
 #2021.10.16-2022.7.20
 
-PIP_REQUIRE = ['requests','playsound']
+PIP_REQUIRE = ['requests','playsound','edge-tts']
 ##LINUX_REQUIRE = ['python3-gst-1.0']
 
 import sys,os
