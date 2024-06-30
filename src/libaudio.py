@@ -11,14 +11,11 @@ def download(root:libgui.Tk,lesson:libclass.Lesson):
     update = libgui.download(root,len(wlst))
     try:
         for index,i in enumerate(wlst):
-            if f'{i}.mp3' not in files:
-                if ' ' in i.word:    #词组（搜狗tts引擎）
-                    libnetwork.getaudio1(i.word)
-                else:   #单词（搜狗美式发音）
-                    libnetwork.getaudio2(i.word)
+            if f'{i.word}.mp3' not in files:
+                libnetwork.getaudio(i.word)
             update(index)
         update(index+1)
-    except:
+    except Exception:
         libgui.msgbox.showerror('错误','无法下载，请检查网络连接',parent=root)
         raise
 def play(word:libclass.Word):

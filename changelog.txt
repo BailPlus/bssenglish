@@ -1,4 +1,9 @@
 白杉树背单词训练软件 更新日志
+2024.6.30:v2.1.3_70
+*src/libaudio.py,src/libnetwork.py 换用了新的tts引擎
+*src/libgui.py 修复了下载音频时进度条不走，结束时直接从0走到100%的问题
+*makefile 优化实现方式，增加打包前填写必要数据的提示
+-libnetwork.py 删除无用代码
 2024.6.30:v2.1.2_69
 -src/libaudio.py 取消了下载音频时对tqdm的依赖（无用功能） 
 *src/libaudio.py 优化了下载音频时显示进度百分比的方式,解决了单词数量较多时下载界面提前退出的bug 

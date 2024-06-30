@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2024
-#bssenglish 白杉树背单词训练软件 v2.1.2_69
+#bssenglish 白杉树背单词训练软件 v2.1.3_70
 #2021.7.11-2024.6.30
 
 '''
