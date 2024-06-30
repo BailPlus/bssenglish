@@ -147,8 +147,12 @@ lesson(libclass.Lesson):课程'''
     for i in lesson.words:
         tree.insert('','end',text=i.word,values=(i.pronounce,i.trans))
 def download(root:Tk,wordnum:int):
+    '''下载音频文件进度条窗口
+root(tkinter.Tk):根窗口
+wordnum(int):单词数量
+返回值:用于更新进度条的函数(func)'''
     def update(value:int):
-        per = round(value/wordnum,2)*100
+        per = int(value/wordnum)*100
         bar['value'] = per
         label['text'] = f'{per}%'
         down.update()

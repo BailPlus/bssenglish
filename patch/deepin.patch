@@ -1,0 +1,4 @@
+14c14
+< OSNAME = None   #备选:None,deepin,termux
+---
+> OSNAME = 'deepin'   #备选:None,deepin,termux

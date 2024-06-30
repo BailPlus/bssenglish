@@ -3,17 +3,15 @@
 #2021.8.25
 
 
-import os,libgui,tqdm,playsound,libclass,libfile,libnetwork,threading
+import os,libgui,playsound,libclass,libfile,libnetwork,threading
 
 def download(root:libgui.Tk,lesson:libclass.Lesson):
     wlst = lesson.words
     files = os.listdir(libfile.getpath('audio'))
-    barlst = tqdm.tqdm(wlst)
     update = libgui.download(root,len(wlst))
     try:
-        for index,i in enumerate(barlst):
+        for index,i in enumerate(wlst):
             if f'{i}.mp3' not in files:
-                barlst.set_description(f'下载中:{i}')
                 if ' ' in i.word:    #词组（搜狗tts引擎）
                     libnetwork.getaudio1(i.word)
                 else:   #单词（搜狗美式发音）
