@@ -42,7 +42,7 @@ def makeprogress():
         path = os.path.join(libfile.path['progress'],md5)
         if not os.path.exists(path):
             with open(path,'w') as file:
-                file.write(os.linesep.join(('0','0','0')))
+                file.write('0\n0\n0')
 def main():
     print('开始初始化')
     makedir()

@@ -1,4 +1,10 @@
 白杉树背单词训练软件 更新日志
+2024.7.3:v2.1.4_71
+*src/libstudy.py 修复了学习完成之后课程进度仍未完成的bug
+*src/init.py,src/libfile.py 修复了Windows端读取课程进度时由于换行符问题引起的bug
+*src/libfile.py 修复了Windows端因文件编码方式不同引起的bug
+*src/bss.py 优化了加载模块前的处理并增加了提示
+-src/libstudy.py 去除了开始学习前对“列表为空”的判断，合并到“已学完”的提示
 2024.6.30:v2.1.3_70
 *src/libaudio.py,src/libnetwork.py 换用了新的tts引擎
 *src/libgui.py 修复了下载音频时进度条不走，结束时直接从0走到100%的问题

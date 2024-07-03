@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding:utf-8
 #Copyright Bail 2021-2024
-#bssenglish 白杉树背单词训练软件 v2.1.3_70
-#2021.7.11-2024.6.30
+#bssenglish 白杉树背单词训练软件 v2.1.4_71
+#2021.7.11-2024.7.3
 
 '''
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
@@ -26,11 +26,12 @@ import libgui,libfile,libsc,init,libnotice
 
 def loadplugins():
     '''加载模块'''
-    sys.path.append('.',)   #这是什么鬼东西？
+    sys.path.append(libfile.getpath('plugins'))
     os.chdir(libfile.getpath('plugins'))
     for i in os.listdir('.'):
-        pkgname = i.split('.')[0] #去掉后缀名
+        pkgname = os.path.splitext(i)[0] #去掉后缀名
         __import__(pkgname)
+        print(f'I: 已加载模块: {pkgname}')
 def printe(*args,**kw):
     '''从stderr通道输出内容
 与内置函数print用法相同'''

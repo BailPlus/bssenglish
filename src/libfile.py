@@ -60,7 +60,7 @@ def islessonfile(fn:str)->bool:
     '''判断是否为课程文件（通过比对文件头）
 fn(str):文件名
 返回值：为课程文件性(bool)'''
-    with open(fn) as file:
+    with open(fn,encoding='utf-8') as file:
         if file.readline() == LESSON_FILE_HEADER:
             return True
         else:
@@ -70,14 +70,14 @@ def readfile(fn:str)->libclass.Lesson:
 fn(str):文件名
 返回值:课程对象(libclass.Lesson)'''
     #读取课程信息
-    with open(fn) as file:
+    with open(fn,encoding='utf-8') as file:
         file.readline()
         lesson_info = json.loads(file.readline())
     #读取课程内容
     words = tuple(libclass.Word(*i) for i in readfromcsv(fn,2))
     md5 = get_file_md5(fn)
     progress_file_name = os.path.join(path['progress'],md5)
-    with open(progress_file_name) as progress_file:
+    with open(progress_file_name,encoding='utf-8') as progress_file:
         progress = list(map(int,progress_file.readlines()))
     lesson = libclass.Lesson(**lesson_info,words=words,md5=md5,progress=progress)   #使用`words=words`是为了避免参数传乱出现bug
     return lesson
@@ -139,5 +139,5 @@ def saveprogress(lessonlst:list):
 lessonlst(list[libclass.Lesson]):课程对象列表'''
     for i in lessonlst:
         progress_file_name = os.path.join(path['progress'],i.md5)
-        with open(progress_file_name,'w') as progress_file:
-            progress_file.write(os.linesep.join(map(str,i.progress)))
+        with open(progress_file_name,'w',encoding='utf-8') as progress_file:
+            progress_file.write('\n'.join(map(str,i.progress)))
