@@ -2,11 +2,11 @@ Package: com.Bail.bssenglish
 Version: 
 Architecture: all
 Maintainer: Bail<2915289604@qq.com>
-Installed-Size:KB
+Installed-Size: KB
 Pre-Depends:
 Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
 Recommends:
-Conflicts: bssenglish
+Conflicts: bssenglish,bssenglish-termux
 Replaces:
 Provides: Office
 Priority: optional

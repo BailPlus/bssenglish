@@ -1,4 +1,7 @@
 白杉树背单词训练软件 更新日志
+2024.7.11:v2.1.5_72
+*src/libstudy.py 修复了记忆模块复习后仍然显示当前单词的bug
+*build/*[!windows]/DEBIAN/control 优化格式
 2024.7.3:v2.1.4_71
 *src/libstudy.py 修复了学习完成之后课程进度仍未完成的bug
 *src/init.py,src/libfile.py 修复了Windows端读取课程进度时由于换行符问题引起的bug
