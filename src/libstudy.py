@@ -31,6 +31,7 @@ wlst(list):包含要学习的单词对象的列表'''
         '''复习
 ci(int):剩余复习次数'''
         if ci4 <= -1: #复习完了   #使用`<=`防止出现bug  #使用`-1`为了满足复习3次
+            nonlocal index
             index += 1
             recitebtn.grid_forget()
             nextword()
