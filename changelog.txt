@@ -1,6 +1,8 @@
 白杉树背单词训练软件 更新日志
+2024.7.22:v2.2_74
++src/lesson_editor.py 增加了课程文件编辑器
 2024.7.12:v2.1.5.1_73
-+src/libstudy.py修改错别字
++src/libstudy.py 修改错别字
 2024.7.11:v2.1.5_72
 *src/libstudy.py 修复了记忆模块复习后仍然显示当前单词的bug
 *build/*[!windows]/DEBIAN/control 优化格式
