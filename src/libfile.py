@@ -6,6 +6,7 @@ import os,libclass,csv,shutil,libgui,bss,json,hashlib,traceback
 
 OSNAME = bss.OSNAME
 LESSON_FILE_HEADER = 'bssenglish lesson file\n' #课程文件头
+FILE_VERSION = 4    #当前课程文件版本
 
 home = os.path.expanduser('~')
 path = {
@@ -48,6 +49,8 @@ def getlessons()->list:
         if islessonfile(fn):
             try:
                 lesson = readfile(fn)
+            except libclass.WrongFileVersion as e:
+                print(f'E: 文件版本错误: {e}')
             except Exception:
                 print(f'E: "{fn}"课程文件已损坏')
                 traceback.print_exc()
@@ -73,6 +76,10 @@ fn(str):文件名
     with open(fn,encoding='utf-8') as file:
         file.readline()
         lesson_info = json.loads(file.readline())
+    #比对文件版本
+    current_file_version = lesson_info['file_version']
+    if current_file_version != FILE_VERSION:
+        raise libclass.WrongFileVersion(f'{fn}: {current_file_version}，预期为{FILE_VERSION}')
     #读取课程内容
     words = tuple(libclass.Word(*i) for i in readfromcsv(fn,2))
     md5 = get_file_md5(fn)

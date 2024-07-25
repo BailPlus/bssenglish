@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 #Copyright Bail 2024
 #bssenglish:lesson_editor 课程文件编辑器 v1.0_1
-#2024.7.22
+#2024.7.19-2024.7.22
 
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
-import libfile,libclass,json,sys
+import libfile,libclass,json,sys,traceback
 
 def add(word:libclass.Word=None):
     '''添加单词条目'''
@@ -42,7 +42,22 @@ def openfile():
             return
     if not filename:
         filename = filedialog.askopenfilename(parent=root,title='打开')
-    lesson = libfile.readfile(filename)
+        if libfile.islessonfile(filename):
+            try:
+                lesson = libfile.readfile(filename)
+            except libclass.WrongFileVersion as e:
+                messagebox.showerror('文件错误',f'文件版本错误: {e}')
+                filename = None
+                return
+            except Exception:
+                messagebox.showerror('文件错误',f'"{filename}"课程文件已损坏')
+                traceback.print_exc()
+                filename = None
+                return
+        else:
+            messagebox.showerror('文件错误',f'"{filename}"不是课程文件')
+            filename = None
+            return
     filename_label.config(text=f'当前文件：{filename}')
     name_entry.insert(0,lesson.name)
     fullname_entry.insert(0,lesson.fullname)

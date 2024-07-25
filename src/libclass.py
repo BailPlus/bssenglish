@@ -65,3 +65,9 @@ progress(list):学习进度。长度为3，类型为int，依次为记忆、听�
         self.progress = progress
 ##    def __iter__(self):
 ##        return self.words
+class WrongFileVersion(Exception):
+    '''课程文件版本错误'''
+    def __init__(self,e):
+        self.e = e
+    def __str__(self) -> str:
+        return self.e
