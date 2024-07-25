@@ -3,7 +3,7 @@
 
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
-import time,libclass,os,libfile,libgui,libstudy,random
+import time,libclass,os,libfile,libgui,libstudy,random,json
 
 remlst = [];lislst = [];wrilst = []
 
@@ -206,13 +206,22 @@ huilst(list):熟词列表'''
     else:
         raise ValueError(f'非法的学习类型: {study_type}')
 
+    memory_data = []    #用于收集记忆数据
+
     #处理生词
     for i in sclst:
         for j in data:
-            if i == j:   #如果生词已存在
+            if i == j:  #如果生词已存在
                 j.learn += 1
                 j.wrong += 1
                 j.review = int(time.time()+deltatime(j))
+
+                dic = {}
+                dic['word'] = j.word
+                dic['learn'] = j.learn
+                dic['wrong'] = j.wrong
+                dic['ismemorized'] = False
+                memory_data.append(dic)
                 break
         else:   #如果生词不存在
             sc = libclass.Sc(i.word,i.pronounce,i.trans,1,1,int(time.time()))
@@ -224,11 +233,20 @@ huilst(list):熟词列表'''
             if i == j:  #如果存在对应生词
                 j.learn += 1
                 j.review = int(time.time()+deltatime(j))
+ 
+                dic = {}
+                dic['word'] = j.word
+                dic['learn'] = j.learn
+                dic['wrong'] = j.wrong
+                dic['ismemorized'] = True
+                memory_data.append(dic)
 
     #删除熟记生词
     for i in data:
         if i.strenth() > 0.95:
             data.remove(i)
+
+    save_review_data(study_type,memory_data)
 def get_need_review_list(lst:list):
     '''分出需要复习的词
 lst(list):生词列表
@@ -270,6 +288,15 @@ def savefile():
         lst = eval(f'{i}lst')
         fn = os.path.join(libfile.getpath('sc'),f'{i}.csv')
         libfile.saveascsv(lst,fn)
+def save_review_data(study_type:str,data:dict):
+    '''保存复习数据
+-------------
+用于调整复习时间函数'''
+    fn = os.path.join(libfile.path['mempatcher'],'memory_data.log')
+    with open(fn,'a',encoding='utf-8') as file:
+        print(time.strftime(f'[%Y.%m.%d %H:%M:%S, {study_type}]'),file=file)
+        print(json.dumps(data),file=file)
+        print(file=file)
 def control(root):
     '''生词模块主控
 root(tkinter.Tk):主窗口'''
