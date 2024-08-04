@@ -19,7 +19,10 @@ def isinst():
         if res != 0:
             raise OSError('Linux依赖安装失败')"""
 def pip_install():
-    os.system(f'{sys.executable} -m pip install '+' '.join(PIP_REQUIRE))
+    if '--termux' in sys.argv:  # 判定为termux安装，使用自编的playsound
+        PIP_REQUIRE.remove('playsound')
+    os.system(f'{sys.executable} -m pip install -i https://mirrors.aliyun.com/pypi/simple/ --upgrade pip wheel setuptools')    # 更新pip组件，防止安装失败
+    os.system(f'{sys.executable} -m pip install -i https://mirrors.aliyun.com/pypi/simple/ '+' '.join(PIP_REQUIRE))
 def main():
 ##    if os.name == 'posix' and not isinst():
 ##        linux_install()

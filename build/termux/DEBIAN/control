@@ -5,7 +5,7 @@ Maintainer: Bail<2915289604@qq.com>
 Installed-Size: KB
 Pre-Depends:
 Depends: python(>=3.7),python-tkinter
-Recommends:
+Recommends: termux-api
 Conflicts: bssenglish,com.Bail.bssenglish
 Replaces:
 Provides: Office

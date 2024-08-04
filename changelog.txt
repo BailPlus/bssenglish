@@ -1,4 +1,7 @@
 白杉树背单词训练软件 更新日志
+2024.8.4:v2.2.2_76
++src/playsound4termux.py 针对termux重写了playsound，现在termux可以播放声音了
++src/makefile,src/install_requires.py,build/termux/* 适配了更改
 2024.7.25:v2.2.1_75
 +src/libfile.py 增加了对课程文件版本的识别
 +src/lesson_editor.py 适配了课程文件版本识别机制

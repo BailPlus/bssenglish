@@ -19,6 +19,7 @@ build-termux:
 	patch src/bss.py patch/termux.patch
 	cp src/bss.py build/termux/data/data/com.termux/files/usr/bin/bssenglish
 	cp src/init.py src/install_requires.py src/lesson_editor.py src/lib*.py build/termux/data/data/com.termux/files/usr/lib/bssenglish
+	cp src/playsound4termux.py build/termux/data/data/com.termux/files/usr/lib/bssenglish/playsound.py
 	cp res/bss.png build/termux/data/data/com.termux/files/usr/share/pixmaps
 	cp changelog.txt LICENSE build/termux/data/data/com.termux/files/usr/share/bssenglish
 	chmod 755 build/termux/data/data/com.termux/files/usr/bin/bssenglish
