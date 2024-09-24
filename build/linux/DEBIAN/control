@@ -4,7 +4,7 @@ Architecture: all
 Maintainer: Bail<2915289604@qq.com>
 Installed-Size: KB
 Pre-Depends:
-Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip
+Depends: python3(>=3.7),python3-gst-1.0,python3-tk,python3-pip,python3-requests
 Recommends:
 Conflicts: com.Bail.bssenglish,bssenglish-termux
 Replaces:

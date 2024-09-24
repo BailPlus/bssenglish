@@ -86,7 +86,7 @@ issaveas(bool):是否为另存为模式'''
         file.write('\n'.join(words))
 
 word_entry_lst = [] # 所有单词条目
-filename:str = None
+filename = None
 
 # 配置界面
 root = Tk()
