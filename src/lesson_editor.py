@@ -6,7 +6,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
-import libfile,libclass,json,sys,traceback
+import libfile,libclass,json,sys,traceback,os
 
 def add(word:libclass.Word=None):
     '''添加单词条目'''
@@ -43,6 +43,11 @@ def openfile():
     if not filename:
         filename = filedialog.askopenfilename(parent=root,title='打开')
         if libfile.islessonfile(filename):
+            # 先创建进度文件
+            progress_file_name = os.path.join(libfile.path['progress'],libfile.get_file_md5(filename))
+            if not os.path.exists(progress_file_name):
+                with open(progress_file_name,'w') as file:
+                    file.write('0\n0\n0')
             try:
                 lesson = libfile.readfile(filename)
             except libclass.WrongFileVersion as e:

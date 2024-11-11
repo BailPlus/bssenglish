@@ -1,4 +1,6 @@
 白杉树背单词训练软件 更新日志
+2024.11.11:v2.2.3_77
+*src/lesson_editor.py 修复了无法打开不存在progress文件的课程文件的bug
 2024.8.4:v2.2.2_76
 +src/playsound4termux.py 针对termux重写了playsound，现在termux可以播放声音了
 +src/makefile,src/install_requires.py,build/termux/* 适配了更改
