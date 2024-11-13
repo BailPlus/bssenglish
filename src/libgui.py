@@ -20,6 +20,7 @@ def root():
     Label(lesson_choose_frame,text='请选择课程').grid()
     Button(lesson_choose_frame,text='添加课程',command=libfile.add_lesson).grid(row=0,column=1)
     Button(lesson_choose_frame,text='获取课程',command=libnetwork.open_browser_to_fetch_lessons).grid(row=0,column=2)
+    root.lesson_choose_frame = lesson_choose_frame
 
     sccontrol_frame = Frame(root)
     sccontrol_frame.pack(anchor=NW)
