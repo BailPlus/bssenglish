@@ -8,7 +8,6 @@
 灵感来源:红杉树智能英语(http://www.hssenglish.com)
 '''
 
-from tkinter import Tk
 import sys,os
 #按系统类型配置导入模块的目录
 OSNAME = None   #备选:None,deepin,termux

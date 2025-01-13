@@ -4,7 +4,7 @@
 from tkinter import *
 from tkinter import messagebox as msgbox,ttk
 from _tkinter import TclError
-import libsc as sc,libfile,bss,libaudio,libnetwork,libclass,libstudy
+import libsc as sc,libfile,libaudio,libnetwork,libclass,libstudy
 
 def root():
     root = Tk()

@@ -1,4 +1,6 @@
 #!/bin/sh
-rm -r /usr/lib/bssenglish/__pycache__
+if [ -d "/usr/lib/bssenglish/__pycache__" ]; then
+    rm -r /usr/lib/bssenglish/__pycache__
+fi
 ##rm -r /home/*/.config/bss
 ##rm -r /home/*/.cache/bss

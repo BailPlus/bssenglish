@@ -2,9 +2,9 @@
 #bssenglish:libfile 文件处理模块
 
 from tkinter import filedialog  #将在后期替换为libgui.filedialog，为了代码整洁
-import os,libclass,csv,shutil,libgui,bss,json,hashlib,traceback
+import os,libclass,csv,shutil,libgui,__main__,json,hashlib,traceback
 
-OSNAME = bss.OSNAME
+OSNAME = __main__.OSNAME
 LESSON_FILE_HEADER = 'bssenglish lesson file\n' #课程文件头
 FILE_VERSION = 4    #当前课程文件版本
 
