@@ -25,12 +25,15 @@ def readfile():
         lst += [libclass.Sc(*i) for i in lst0]
 def treesort(tree:ttk.Treeview,col:str,reverse:bool):
     print(tree.get_children(''))
-    l = [tree.set((k,col),k) for k in tree.get_children('')]
-    l.sort(reverse)
+    if col == '#0':
+        l = [(tree.item(k, "text"), k) for k in tree.get_children('')]
+    else:
+        l = [(tree.set(k,col),k) for k in tree.get_children('')]
+    l.sort(reverse=reverse)
     for i,(val,k) in enumerate(l):
         tree.move(k,'',i)
         print(k)
-    tree.heading(col,command=lambda:treesort(tree,col,True))
+    tree.heading(col,command=lambda:treesort(tree,col,not reverse))
 def gui_main(root:Tk):
     '''主窗口
 root(Tk):bss根窗口'''
@@ -45,6 +48,7 @@ root(Tk):bss根窗口'''
 ##    Button(rembtns,text='导出',command=lambda:exp(remlst)).grid(row=0,column=2)
     remtree = ttk.Treeview(screm,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));remtree.pack()
 
+    remtree.heading('#0',text='单词',command=lambda:treesort(remtree,'#0',False))
     remtree.heading('音标',text='音标',command=lambda:treesort(remtree,'音标',False))
     remtree.heading('词义',text='词义',command=lambda:treesort(remtree,'词义',False))
     remtree.heading('学习次数',text='学习次数',command=lambda:treesort(remtree,'学习次数',False))
@@ -60,6 +64,7 @@ root(Tk):bss根窗口'''
 ##    Button(lisbtns,text='导出',command=lambda:exp(lislst)).grid(row=0,column=2)
     listree = ttk.Treeview(sclis,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));listree.pack()
 
+    listree.heading('#0',text='单词',command=lambda:treesort(listree,'#0',False))
     listree.heading('音标',text='音标',command=lambda:treesort(listree,'音标',False))
     listree.heading('词义',text='词义',command=lambda:treesort(listree,'词义',False))
     listree.heading('学习次数',text='学习次数',command=lambda:treesort(listree,'学习次数',False))
@@ -75,6 +80,7 @@ root(Tk):bss根窗口'''
 ##    Button(wribtns,text='导出',command=lambda:exp(wrilst)).grid(row=0,column=2)
     writree = ttk.Treeview(scwri,columns=('音标','词义','学习次数','错误次数','记忆强度','复习时间'));writree.pack()
 
+    writree.heading('#0',text='单词',command=lambda:treesort(writree,'#0',False))
     writree.heading('音标',text='音标',command=lambda:treesort(writree,'音标',False))
     writree.heading('词义',text='词义',command=lambda:treesort(writree,'音标',False))
     writree.heading('学习次数',text='学习次数',command=lambda:treesort(writree,'音标',False))
